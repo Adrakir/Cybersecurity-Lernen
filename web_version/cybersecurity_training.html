@@ -1298,10 +1298,196 @@
     };
     </script>
     
+    <!-- Master Integration Suite v3.0 -->
+    <script src="master_integration.js"></script>
+    <script src="performance_optimizer.js"></script>
+    
+    <!-- Module Loader (lädt alle anderen Module intelligent) -->
+    <script src="module_loader.js"></script>
+    
+    <!-- Core Enhancement Modules -->
+    <script src="advanced_analytics.js"></script>
+    <script src="smart_notifications.js"></script>
+    <script src="collaboration_system.js"></script>
+    
     <!-- Enhanced Platform Scripts -->
     <script src="ai_learning_service.js"></script>
     <script src="gamification_engine.js"></script>
     <script src="adaptive_quiz_engine.js"></script>
     <script src="enhanced_platform.js"></script>
+    
+    <!-- Platform v3.0 Master Integration Initialization -->
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('🎯 Enhanced Learning Platform v3.0 Starting...');
+            console.log('🚀 Master Integration Suite initializing all systems...');
+            
+            // Master Integration Suite handles all system initialization
+            if (window.masterSuite) {
+                // Wait for master integration to complete
+                window.masterSuite.eventBus.on('integration:complete', (data) => {
+                    console.log('✅ All systems integrated and operational!');
+                    console.log(`📊 Systems active: ${data.systems.length}`);
+                    
+                    // Initialize platform UI
+                    if (typeof EnhancedLearningPlatform !== 'undefined') {
+                        window.platform = new EnhancedLearningPlatform();
+                    }
+                    
+                    // Show integration success notification
+                    if (window.smartNotifications) {
+                        window.smartNotifications.createNotification({
+                            type: 'success',
+                            title: '🎯 Platform v3.0 Ready!',
+                            body: 'All enterprise systems successfully integrated and operational.',
+                            priority: 'high',
+                            persistent: true
+                        });
+                    }
+                    
+                    // Add system monitor link
+                    addSystemMonitorLink();
+                });
+                
+                // Handle integration errors
+                window.masterSuite.eventBus.on('system:error', (error) => {
+                    console.error('💥 System error detected:', error);
+                    showErrorNotification(error);
+                });
+                
+                console.log('✅ Enhanced Learning Platform v3.0 Master Integration Complete!');
+            }
+        });
+        
+        function addSystemMonitorLink() {
+            // Add System Monitor access button to interface
+            const monitorBtn = document.createElement('button');
+            monitorBtn.innerHTML = '🖥️ System Monitor';
+            monitorBtn.className = 'monitor-access-btn';
+            monitorBtn.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #2563eb, #1d4ed8);
+                color: white;
+                border: none;
+                padding: 0.75rem 1rem;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                z-index: 1000;
+                box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+                transition: all 0.3s ease;
+            `;
+            
+            monitorBtn.addEventListener('mouseenter', () => {
+                monitorBtn.style.transform = 'translateY(-2px)';
+                monitorBtn.style.boxShadow = '0 6px 25px rgba(37, 99, 235, 0.4)';
+            });
+            
+            monitorBtn.addEventListener('mouseleave', () => {
+                monitorBtn.style.transform = 'translateY(0)';
+                monitorBtn.style.boxShadow = '0 4px 20px rgba(37, 99, 235, 0.3)';
+            });
+            
+            monitorBtn.onclick = () => {
+                window.open('system_monitor.html', '_blank', 'width=1200,height=800');
+            };
+            
+            document.body.appendChild(monitorBtn);
+        }
+        
+        function showErrorNotification(error) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(239, 68, 68, 0.9);
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 8px;
+                font-weight: 600;
+                z-index: 1001;
+                animation: slideDown 0.3s ease;
+            `;
+            notification.innerHTML = `⚠️ System Error: ${error.system || 'Unknown'} - ${error.error?.message || 'Unknown error'}`;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+        
+        // Enhanced CSS for v3.0
+        const enhancedStyles = document.createElement('style');
+        enhancedStyles.textContent = `
+            @keyframes slideDown {
+                from {
+                    transform: translateX(-50%) translateY(-100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(-50%) translateY(0);
+                    opacity: 1;
+                }
+            }
+            
+            .integration-status {
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                background: rgba(16, 185, 129, 0.9);
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 20px;
+                font-size: 0.9rem;
+                font-weight: 500;
+                z-index: 1000;
+                animation: fadeInUp 0.5s ease;
+            }
+            
+            @keyframes fadeInUp {
+                from {
+                    transform: translateY(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+            
+            .platform-v3-badge {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                background: linear-gradient(135deg, #3b82f6, #06b6d4);
+                color: white;
+                padding: 0.25rem 0.5rem;
+                border-radius: 4px;
+                font-size: 0.7rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+        `;
+        document.head.appendChild(enhancedStyles);
+        
+        // Add platform version badge
+        window.addEventListener('load', () => {
+            const badge = document.createElement('div');
+            badge.className = 'platform-v3-badge';
+            badge.textContent = 'v3.0 Enterprise';
+            document.body.appendChild(badge);
+            
+            const status = document.createElement('div');
+            status.className = 'integration-status';
+            status.innerHTML = '✅ Master Integration Active';
+            document.body.appendChild(status);
+        });
+    </script>
 </body>
 </html>

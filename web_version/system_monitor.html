@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Enhanced Learning Platform - System Monitor</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --border-color: #475569;
+            --glass-bg: rgba(30, 41, 59, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .monitor-header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .platform-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .platform-title h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--success-color);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .monitor-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            gap: 2rem;
+        }
+
+        .metrics-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
+        }
+
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .metric-title {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .metric-trend {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .trend-up { color: var(--success-color); }
+        .trend-down { color: var(--error-color); }
+        .trend-stable { color: var(--text-secondary); }
+
+        .system-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .system-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .system-card.healthy { border-left: 4px solid var(--success-color); }
+        .system-card.degraded { border-left: 4px solid var(--warning-color); }
+        .system-card.failed { border-left: 4px solid var(--error-color); }
+
+        .system-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .system-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .system-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .system-status.healthy {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: var(--success-color);
+        }
+
+        .system-status.degraded {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: var(--warning-color);
+        }
+
+        .system-status.failed {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: var(--error-color);
+        }
+
+        .system-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .system-metric {
+            text-align: center;
+        }
+
+        .system-metric-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .system-metric-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: var(--bg-tertiary);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--success-color));
+            transition: width 0.5s ease;
+        }
+
+        .realtime-chart {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .chart-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chart-button {
+            padding: 0.5rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chart-button:hover {
+            background: var(--primary-color);
+        }
+
+        .chart-button.active {
+            background: var(--primary-color);
+        }
+
+        .chart-canvas {
+            width: 100%;
+            height: 300px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+        }
+
+        .alerts-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .alerts-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .alert-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .alert-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .alert-icon.warning {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: var(--warning-color);
+        }
+
+        .alert-icon.error {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: var(--error-color);
+        }
+
+        .alert-icon.info {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: var(--primary-color);
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .alert-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .alert-time {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), #1d4ed8);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+        }
+
+        .floating-notifications {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            max-width: 300px;
+        }
+
+        .notification {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--text-secondary);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .monitor-container {
+                padding: 1rem;
+            }
+            
+            .metrics-overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .system-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="monitor-header">
+        <div class="header-content">
+            <div class="platform-title">
+                <h1>🎯 Enhanced Learning Platform - System Monitor</h1>
+                <div class="status-indicator">
+                    <div class="pulse-dot"></div>
+                    <span id="systemStatus">All Systems Operational</span>
+                </div>
+            </div>
+            <div class="header-controls">
+                <button class="chart-button" onclick="toggleAutoRefresh()" id="autoRefreshBtn">
+                    <span class="loading-spinner" style="display: none;"></span>
+                    Auto-Refresh: ON
+                </button>
+                <button class="chart-button" onclick="refreshMonitor()">🔄 Refresh</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="monitor-container">
+        <!-- Metrics Overview -->
+        <div class="metrics-overview" id="metricsOverview">
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-title">Total Systems</span>
+                    <span class="metric-trend trend-stable">●</span>
+                </div>
+                <div class="metric-value" id="totalSystems">9</div>
+                <div class="metric-trend">
+                    <span>↗</span> All systems active
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-title">Health Score</span>
+                    <span class="metric-trend trend-up">▲</span>
+                </div>
+                <div class="metric-value" id="healthScore">98%</div>
+                <div class="metric-trend trend-up">
+                    <span>+2%</span> from last check
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-title">Events/Min</span>
+                    <span class="metric-trend trend-up">▲</span>
+                </div>
+                <div class="metric-value" id="eventsPerMin">247</div>
+                <div class="metric-trend trend-up">
+                    <span>+15%</span> activity increase
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-title">Response Time</span>
+                    <span class="metric-trend trend-down">▼</span>
+                </div>
+                <div class="metric-value" id="responseTime">23ms</div>
+                <div class="metric-trend trend-down">
+                    <span>-8ms</span> improved latency
+                </div>
+            </div>
+        </div>
+
+        <!-- System Status Grid -->
+        <div class="system-grid" id="systemGrid">
+            <!-- Systems werden dynamisch geladen -->
+        </div>
+
+        <!-- Real-time Performance Chart -->
+        <div class="realtime-chart">
+            <div class="chart-header">
+                <h3 class="chart-title">📊 Real-time Performance Metrics</h3>
+                <div class="chart-controls">
+                    <button class="chart-button active" onclick="switchChart('performance')">Performance</button>
+                    <button class="chart-button" onclick="switchChart('memory')">Memory</button>
+                    <button class="chart-button" onclick="switchChart('events')">Events</button>
+                </div>
+            </div>
+            <canvas id="performanceChart" class="chart-canvas"></canvas>
+        </div>
+
+        <!-- System Alerts -->
+        <div class="alerts-section">
+            <div class="alerts-header">
+                <h3>🚨 System Alerts & Notifications</h3>
+                <button class="chart-button" onclick="clearAlerts()">Clear All</button>
+            </div>
+            <div id="alertsList">
+                <!-- Alerts werden dynamisch geladen -->
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="optimizeAllSystems()">
+                🚀 Optimize All Systems
+            </button>
+            <button class="btn btn-secondary" onclick="exportSystemLogs()">
+                📋 Export Logs
+            </button>
+            <button class="btn btn-secondary" onclick="openSystemConsole()">
+                🖥️ System Console
+            </button>
+            <button class="btn btn-secondary" onclick="runDiagnostics()">
+                🔧 Run Diagnostics
+            </button>
+        </div>
+    </div>
+
+    <!-- Floating Notifications -->
+    <div class="floating-notifications" id="floatingNotifications">
+        <!-- Real-time notifications -->
+    </div>
+
+    <script>
+        class SystemMonitor {
+            constructor() {
+                this.isAutoRefresh = true;
+                this.refreshInterval = 5000; // 5 seconds
+                this.currentChart = 'performance';
+                this.chart = null;
+                this.systemData = new Map();
+                this.alertHistory = [];
+                
+                this.initializeMonitor();
+            }
+
+            initializeMonitor() {
+                console.log('🎯 System Monitor initializing...');
+                
+                // Initialize Chart
+                this.initializeChart();
+                
+                // Load initial data
+                this.loadSystemData();
+                
+                // Start auto-refresh
+                this.startAutoRefresh();
+                
+                // Setup event listeners
+                this.setupEventListeners();
+                
+                console.log('✅ System Monitor ready');
+            }
+
+            loadSystemData() {
+                // Simulate system data - in real implementation, this would fetch from master suite
+                const systems = [
+                    {
+                        name: 'Performance Optimizer',
+                        id: 'performanceOptimizer',
+                        status: 'healthy',
+                        uptime: '2h 45m',
+                        cpu: 12,
+                        memory: 85,
+                        metrics: {
+                            optimizations: 47,
+                            cacheHits: 94.2
+                        }
+                    },
+                    {
+                        name: 'AI Learning Service',
+                        id: 'aiLearningService',
+                        status: 'healthy',
+                        uptime: '2h 43m',
+                        cpu: 8,
+                        memory: 67,
+                        metrics: {
+                            requests: 234,
+                            accuracy: 96.8
+                        }
+                    },
+                    {
+                        name: 'Advanced Analytics',
+                        id: 'advancedAnalytics',
+                        status: 'healthy',
+                        uptime: '2h 44m',
+                        cpu: 15,
+                        memory: 72,
+                        metrics: {
+                            events: 1847,
+                            insights: 23
+                        }
+                    },
+                    {
+                        name: 'Smart Notifications',
+                        id: 'smartNotifications',
+                        status: 'healthy',
+                        uptime: '2h 42m',
+                        cpu: 3,
+                        memory: 41,
+                        metrics: {
+                            sent: 67,
+                            opened: 89.5
+                        }
+                    },
+                    {
+                        name: 'Collaboration System',
+                        id: 'collaborationSystem',
+                        status: 'degraded',
+                        uptime: '1h 23m',
+                        cpu: 22,
+                        memory: 91,
+                        metrics: {
+                            sessions: 12,
+                            users: 45
+                        }
+                    },
+                    {
+                        name: 'Gamification Engine',
+                        id: 'gamificationEngine',
+                        status: 'healthy',
+                        uptime: '2h 41m',
+                        cpu: 6,
+                        memory: 55,
+                        metrics: {
+                            achievements: 156,
+                            level: 8
+                        }
+                    }
+                ];
+
+                systems.forEach(system => {
+                    this.systemData.set(system.id, system);
+                });
+
+                this.renderSystemGrid();
+                this.updateMetrics();
+                this.loadAlerts();
+            }
+
+            renderSystemGrid() {
+                const grid = document.getElementById('systemGrid');
+                const systems = Array.from(this.systemData.values());
+                
+                grid.innerHTML = systems.map(system => `
+                    <div class="system-card ${system.status}" data-system="${system.id}">
+                        <div class="system-header">
+                            <div class="system-name">${system.name}</div>
+                            <div class="system-status ${system.status}">${this.getStatusText(system.status)}</div>
+                        </div>
+                        <div class="system-metrics">
+                            <div class="system-metric">
+                                <div class="system-metric-label">Uptime</div>
+                                <div class="system-metric-value">${system.uptime}</div>
+                            </div>
+                            <div class="system-metric">
+                                <div class="system-metric-label">CPU</div>
+                                <div class="system-metric-value">${system.cpu}%</div>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${system.memory}%"></div>
+                        </div>
+                        <div style="text-align: center; margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-secondary);">
+                            Memory: ${system.memory}%
+                        </div>
+                        <div style="margin-top: 1rem; font-size: 0.9rem;">
+                            ${Object.entries(system.metrics).map(([key, value]) => 
+                                `<div style="display: flex; justify-content: space-between;">
+                                    <span>${this.formatMetricName(key)}:</span>
+                                    <span><strong>${value}</strong></span>
+                                </div>`
+                            ).join('')}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            updateMetrics() {
+                // Calculate overall health score
+                const systems = Array.from(this.systemData.values());
+                const healthyCount = systems.filter(s => s.status === 'healthy').length;
+                const healthScore = Math.round((healthyCount / systems.length) * 100);
+                
+                document.getElementById('totalSystems').textContent = systems.length;
+                document.getElementById('healthScore').textContent = healthScore + '%';
+                
+                // Simulate dynamic metrics
+                document.getElementById('eventsPerMin').textContent = Math.floor(200 + Math.random() * 100);
+                document.getElementById('responseTime').textContent = Math.floor(15 + Math.random() * 20) + 'ms';
+                
+                // Update system status indicator
+                const statusEl = document.getElementById('systemStatus');
+                if (healthScore >= 95) {
+                    statusEl.textContent = 'All Systems Operational';
+                    statusEl.style.color = 'var(--success-color)';
+                } else if (healthScore >= 80) {
+                    statusEl.textContent = 'Minor Issues Detected';
+                    statusEl.style.color = 'var(--warning-color)';
+                } else {
+                    statusEl.textContent = 'Critical Issues Present';
+                    statusEl.style.color = 'var(--error-color)';
+                }
+            }
+
+            loadAlerts() {
+                const alerts = [
+                    {
+                        type: 'warning',
+                        title: 'High Memory Usage',
+                        description: 'Collaboration System memory usage at 91%',
+                        time: '2 minutes ago',
+                        icon: '⚠️'
+                    },
+                    {
+                        type: 'info',
+                        title: 'Performance Optimization',
+                        description: 'Automated optimization completed successfully',
+                        time: '5 minutes ago',
+                        icon: '🚀'
+                    },
+                    {
+                        type: 'warning',
+                        title: 'API Rate Limit',
+                        description: 'OpenAI API approaching rate limit (80% used)',
+                        time: '8 minutes ago',
+                        icon: '🔄'
+                    }
+                ];
+
+                const alertsList = document.getElementById('alertsList');
+                alertsList.innerHTML = alerts.map(alert => `
+                    <div class="alert-item">
+                        <div class="alert-icon ${alert.type}">${alert.icon}</div>
+                        <div class="alert-content">
+                            <div class="alert-title">${alert.title}</div>
+                            <div class="alert-description">${alert.description}</div>
+                        </div>
+                        <div class="alert-time">${alert.time}</div>
+                    </div>
+                `).join('');
+            }
+
+            initializeChart() {
+                const canvas = document.getElementById('performanceChart');
+                const ctx = canvas.getContext('2d');
+                
+                // Simple chart implementation (in real app, use Chart.js or similar)
+                this.drawChart(ctx, canvas);
+            }
+
+            drawChart(ctx, canvas) {
+                const width = canvas.width = canvas.offsetWidth;
+                const height = canvas.height = canvas.offsetHeight;
+                
+                ctx.clearRect(0, 0, width, height);
+                
+                // Generate sample data
+                const dataPoints = 50;
+                const data = [];
+                for (let i = 0; i < dataPoints; i++) {
+                    data.push(Math.random() * 80 + 10);
+                }
+                
+                // Draw grid
+                ctx.strokeStyle = '#475569';
+                ctx.lineWidth = 1;
+                for (let i = 0; i <= 10; i++) {
+                    const y = (height / 10) * i;
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(width, y);
+                    ctx.stroke();
+                }
+                
+                // Draw data line
+                ctx.strokeStyle = '#3b82f6';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                
+                for (let i = 0; i < data.length; i++) {
+                    const x = (width / (data.length - 1)) * i;
+                    const y = height - (data[i] / 100) * height;
+                    
+                    if (i === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+                
+                ctx.stroke();
+                
+                // Fill area under curve
+                ctx.fillStyle = 'rgba(59, 130, 246, 0.1)';
+                ctx.lineTo(width, height);
+                ctx.lineTo(0, height);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            startAutoRefresh() {
+                if (this.refreshTimer) {
+                    clearInterval(this.refreshTimer);
+                }
+                
+                if (this.isAutoRefresh) {
+                    this.refreshTimer = setInterval(() => {
+                        this.refreshData();
+                    }, this.refreshInterval);
+                }
+            }
+
+            refreshData() {
+                // Simulate data updates
+                this.systemData.forEach((system, id) => {
+                    // Randomly update some metrics
+                    system.cpu = Math.max(0, Math.min(100, system.cpu + (Math.random() - 0.5) * 10));
+                    system.memory = Math.max(0, Math.min(100, system.memory + (Math.random() - 0.5) * 5));
+                });
+                
+                this.renderSystemGrid();
+                this.updateMetrics();
+                this.initializeChart();
+                
+                // Show refresh notification
+                this.showNotification('📊 Data refreshed', 'System metrics updated');
+            }
+
+            showNotification(title, message) {
+                const container = document.getElementById('floatingNotifications');
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.innerHTML = `
+                    <div style="font-weight: 600; margin-bottom: 0.25rem;">${title}</div>
+                    <div style="font-size: 0.9rem; color: var(--text-secondary);">${message}</div>
+                `;
+                
+                container.appendChild(notification);
+                
+                // Auto remove after 3 seconds
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            }
+
+            setupEventListeners() {
+                // System card click handlers
+                document.addEventListener('click', (e) => {
+                    const systemCard = e.target.closest('.system-card');
+                    if (systemCard) {
+                        const systemId = systemCard.dataset.system;
+                        this.showSystemDetails(systemId);
+                    }
+                });
+            }
+
+            showSystemDetails(systemId) {
+                const system = this.systemData.get(systemId);
+                if (system) {
+                    this.showNotification(
+                        `🔍 ${system.name}`,
+                        `Status: ${this.getStatusText(system.status)} | Uptime: ${system.uptime}`
+                    );
+                }
+            }
+
+            getStatusText(status) {
+                const statusTexts = {
+                    'healthy': 'Gesund',
+                    'degraded': 'Beeinträchtigt',
+                    'failed': 'Fehlgeschlagen'
+                };
+                return statusTexts[status] || status;
+            }
+
+            formatMetricName(key) {
+                const names = {
+                    'optimizations': 'Optimierungen',
+                    'cacheHits': 'Cache-Treffer (%)',
+                    'requests': 'Anfragen',
+                    'accuracy': 'Genauigkeit (%)',
+                    'events': 'Events',
+                    'insights': 'Einsichten',
+                    'sent': 'Gesendet',
+                    'opened': 'Geöffnet (%)',
+                    'sessions': 'Sitzungen',
+                    'users': 'Benutzer',
+                    'achievements': 'Erfolge',
+                    'level': 'Level'
+                };
+                return names[key] || key;
+            }
+        }
+
+        // Global functions for UI
+        function toggleAutoRefresh() {
+            monitor.isAutoRefresh = !monitor.isAutoRefresh;
+            const btn = document.getElementById('autoRefreshBtn');
+            const spinner = btn.querySelector('.loading-spinner');
+            
+            if (monitor.isAutoRefresh) {
+                btn.innerHTML = '<span class="loading-spinner"></span>Auto-Refresh: ON';
+                monitor.startAutoRefresh();
+            } else {
+                btn.textContent = 'Auto-Refresh: OFF';
+                clearInterval(monitor.refreshTimer);
+            }
+        }
+
+        function refreshMonitor() {
+            monitor.refreshData();
+        }
+
+        function switchChart(type) {
+            monitor.currentChart = type;
+            
+            // Update button states
+            document.querySelectorAll('.chart-controls .chart-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Redraw chart
+            monitor.initializeChart();
+        }
+
+        function clearAlerts() {
+            document.getElementById('alertsList').innerHTML = 
+                '<div style="text-align: center; color: var(--text-secondary); padding: 2rem;">Keine aktiven Warnungen</div>';
+        }
+
+        function optimizeAllSystems() {
+            monitor.showNotification('🚀 Optimierung gestartet', 'Alle Systeme werden optimiert...');
+            
+            // Simulate optimization
+            setTimeout(() => {
+                monitor.showNotification('✅ Optimierung abgeschlossen', 'Alle Systeme erfolgreich optimiert');
+            }, 2000);
+        }
+
+        function exportSystemLogs() {
+            const report = {
+                timestamp: new Date().toISOString(),
+                systems: Array.from(monitor.systemData.values()),
+                metrics: {
+                    totalSystems: monitor.systemData.size,
+                    healthScore: document.getElementById('healthScore').textContent
+                }
+            };
+            
+            const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `system-monitor-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function openSystemConsole() {
+            monitor.showNotification('🖥️ System-Konsole', 'Konsole wird geöffnet...');
+        }
+
+        function runDiagnostics() {
+            monitor.showNotification('🔧 Diagnose läuft', 'System-Diagnose gestartet...');
+            
+            setTimeout(() => {
+                monitor.showNotification('✅ Diagnose abgeschlossen', 'Keine kritischen Probleme gefunden');
+            }, 3000);
+        }
+
+        // Initialize monitor when page loads
+        let monitor;
+        document.addEventListener('DOMContentLoaded', () => {
+            monitor = new SystemMonitor();
+        });
+    </script>
+</body>
+</html>
