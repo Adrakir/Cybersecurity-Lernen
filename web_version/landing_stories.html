@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT-Sicherheit Fallbeispiele - Zum Schmunzeln und Lernen</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .story-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .story-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .story-header {
+            padding: 20px;
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: white;
+        }
+
+        .story-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .story-preview {
+            font-size: 0.95em;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .story-content {
+            padding: 20px;
+            display: none;
+            border-top: 3px solid #ecf0f1;
+        }
+
+        .story-content.open {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        .reveal-button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .reveal-btn {
+            background: linear-gradient(45deg, #e67e22, #d35400);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .reveal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(230, 126, 34, 0.4);
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .story-text {
+            color: #2c3e50;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .analysis-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .analysis-title {
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .reaction-title {
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .prevention-title {
+            font-weight: bold;
+            color: #27ae60;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navigation {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2em; }
+            .stories-grid { grid-template-columns: 1fr; }
+            .story-header { padding: 15px; }
+            .story-content { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤦‍♂️ IT-Sicherheit Fails</h1>
+            <p>41 wahre Geschichten zum Schmunzeln und Lernen</p>
+        </div>
+
+        <div class="stories-grid" id="storiesGrid">
+            <!-- Stories werden hier per JavaScript eingefügt -->
+        </div>
+
+        <div class="navigation">
+            <a href="cybersecurity_training.html" class="nav-btn">🎓 Zur Lernplattform</a>
+            <button onclick="toggleAllStories()" class="nav-btn">📖 Alle auf/zuklappen</button>
+        </div>
+    </div>
+
+    <script>
+        const funnyStories = [
+            {
+                emoji: "🏥",
+                title: "Krankenhaus-Hack",
+                preview: "Haben Sie unsere Daten verschlüsselt?",
+                story: "Ein Krankenhaus wird von Ransomware befallen. Der Hacker ruft an: 'Wir haben Ihre Daten verschlüsselt!' Der IT-Admin antwortet: 'Danke! Das wollten wir schon lange machen, aber hatten nie Zeit. Können Sie uns zeigen, wie das geht?'",
+                errors: [
+                    "Keine Datenverschlüsselung im Ruhezustand",
+                    "Fehlende Backup-Strategie",
+                    "Unzureichende Mitarbeiterschulung",
+                    "Veraltete Systeme ohne Patches"
+                ],
+                reaction: [
+                    "Sofortiges Trennen vom Netzwerk",
+                    "Incident Response Team aktivieren", 
+                    "Behörden informieren (DSGVO Art. 33)",
+                    "Forensische Analyse starten"
+                ],
+                prevention: [
+                    "Regelmäßige verschlüsselte Backups",
+                    "Patch-Management implementieren",
+                    "Security Awareness Training",
+                    "Network Segmentation"
+                ]
+            },
+            {
+                emoji: "💡",
+                title: "Smart-Glühbirne Spionage",
+                preview: "Die Glühbirne kennt alle Geheimnisse",
+                story: "Eine Familie kauft smarte Glühbirnen. Nach Wochen stellen sie fest, dass die Birnen ihre Gespräche aufzeichnen und an Server in China senden. Der Hersteller begründet: 'Für bessere Lichtstimmung basierend auf Emotionen.'",
+                errors: [
+                    "Keine Datenschutz-Analyse vor Kauf",
+                    "Standard-Passwörter nicht geändert",
+                    "IoT-Geräte im Hauptnetzwerk",
+                    "Fehlende Netzwerk-Überwachung"
+                ],
+                reaction: [
+                    "Sofortiges Trennen der Geräte",
+                    "Router-Logs analysieren",
+                    "Herstellerkontakt für Updates",
+                    "Datenschutzbehörde informieren"
+                ],
+                prevention: [
+                    "IoT-Geräte in separates VLAN",
+                    "Regelmäßige Firmware-Updates",
+                    "Datenschutz-Bewertung vor Kauf",
+                    "Network Activity Monitoring"
+                ]
+            },
+            {
+                emoji: "🏧",
+                title: "Banking-App Fehler",
+                preview: "Plötzlich Millionär durch Bug",
+                story: "Ein Banking-App-Update enthält einen Fehler: Bei jeder Überweisung wird versehentlich eine Null angehängt. Ein Student überweist 10€ und der Empfänger bekommt 100€. Hunderte nutzen den Bug, bevor er entdeckt wird.",
+                errors: [
+                    "Unzureichende Tests vor Deployment",
+                    "Fehlende Staging-Umgebung",
+                    "Keine Code-Review-Prozesse",
+                    "Mangelhafte Monitoring-Systeme"
+                ],
+                reaction: [
+                    "App sofort aus Stores entfernen",
+                    "Alle Transaktionen stoppen",
+                    "Forensische Untersuchung",
+                    "Kunden informieren und entschädigen"
+                ],
+                prevention: [
+                    "Comprehensive Testing Pipeline",
+                    "Code Review und Pair Programming",
+                    "Staging-Umgebung mit Produktionsdaten",
+                    "Real-time Transaction Monitoring"
+                ]
+            },
+            {
+                emoji: "🚗",
+                title: "Auto-Hack via Kaffeemaschine",
+                preview: "Wenn der Kaffee das Auto hackt",
+                story: "Ein vernetztes Auto wird gehackt - über die WiFi-Kaffeemaschine des Besitzers. Die Hacker nutzen die ungesicherte Maschine als Sprungbrett ins Heimnetzwerk und von dort ins Auto. Plötzlich fährt das Auto nachts selbstständig zum Donut-Shop.",
+                errors: [
+                    "Alle Geräte im gleichen Netzwerk",
+                    "Schwache IoT-Gerät Sicherheit", 
+                    "Keine Netzwerksegmentierung",
+                    "Fehlende Anomalieerkennung"
+                ],
+                reaction: [
+                    "Auto sofort offline nehmen",
+                    "Alle IoT-Geräte überprüfen",
+                    "Netzwerk-Traffic analysieren",
+                    "Hersteller kontaktieren"
+                ],
+                prevention: [
+                    "Getrennte VLANs für verschiedene Geräte",
+                    "IoT-Security Baseline etablieren",
+                    "Continuous Network Monitoring",
+                    "Regular Security Audits"
+                ]
+            },
+            {
+                emoji: "🎭",
+                title: "Deepfake-CEO Betrug",
+                preview: "Der Chef, der niemals existierte",
+                story: "Ein Unternehmen wird von einem Deepfake-Video des CEOs getäuscht, der eine Notfall-Überweisung von 2 Millionen € anordnet. Erst nach der Überweisung stellt sich heraus: Der echte CEO war im Urlaub und das Video war KI-generiert.",
+                errors: [
+                    "Keine Verifikation bei großen Überweisungen",
+                    "Fehlende Deepfake-Awareness",
+                    "Schwache Autorisierungsprozesse",
+                    "Mangelnde Kommunikationssicherheit"
+                ],
+                reaction: [
+                    "Bank sofort kontaktieren",
+                    "Überweisung stoppen lassen",
+                    "Polizei und Staatsanwaltschaft",
+                    "Deepfake-Analyse beauftragen"
+                ],
+                prevention: [
+                    "Multi-Faktor-Autorisierung für Transfers",
+                    "Deepfake-Detection Tools",
+                    "Callback-Verifikation bei kritischen Requests",
+                    "Employee Training zu neuen Betrugsmethoden"
+                ]
+            },
+            {
+                emoji: "🍕",
+                title: "Pizza-Drone Kidnapping",
+                preview: "Wenn Drohnen rebellieren",
+                story: "Ein Pizza-Lieferdienst testet Drohnen. Ein Hacker übernimmt die Kontrolle und lässt alle Drohnen zu seinem Haus fliegen. Dort wartet er mit einer Grillparty auf 47 kostenlose Pizzen. Die Polizei findet ihn gut gelaunt und sehr satt.",
+                errors: [
+                    "Unverschlüsselte Drone-Kommunikation",
+                    "Keine Authentifizierung der Steuersignale",
+                    "Fehlende Fail-Safe Mechanismen",
+                    "Unzureichende Zugangskontrolle"
+                ],
+                reaction: [
+                    "Alle Drohnen sofort landen",
+                    "Kommunikationskanäle analysieren",
+                    "Software-Updates prüfen",
+                    "Backup-Steuerung aktivieren"
+                ],
+                prevention: [
+                    "Ende-zu-Ende Verschlüsselung",
+                    "Cryptographic Authentication",
+                    "Geofencing und Flight Restrictions",
+                    "Redundante Kontrollsysteme"
+                ]
+            },
+            {
+                emoji: "📱",
+                title: "Smartphone Spionage-App",
+                preview: "Die App, die zu viel weiß",
+                story: "Eine Taschenlampen-App sammelt heimlich Standortdaten, Kontakte und Nachrichten. Der Entwickler verkauft die Daten und wird reich. Nutzer merken es erst, als personalisierte Werbung für ihre Geheimnisse erscheint: 'Singles in Ihrer Nähe - auch in Ihrem Schlafzimmer!'",
+                errors: [
+                    "Übermäßige App-Berechtigungen gewährt",
+                    "Keine Datenschutz-Prüfung",
+                    "Ungelesene AGB akzeptiert",
+                    "Fehlende App-Store-Vetting"
+                ],
+                reaction: [
+                    "App sofort deinstallieren",
+                    "Berechtigungen aller Apps überprüfen",
+                    "Passwörter ändern",
+                    "App-Store-Beschwerde einreichen"
+                ],
+                prevention: [
+                    "Prinzip der minimalen Berechtigungen",
+                    "App-Permissions regelmäßig auditen",
+                    "Privacy-focused App Stores nutzen",
+                    "Permission Manager Tools verwenden"
+                ]
+            },
+            {
+                emoji: "🎮",
+                title: "Gaming-Cheat Malware",
+                preview: "Der Cheat, der zurück cheatet",
+                story: "Ein Teenager lädt einen 'Unbesiegbarkeits-Cheat' für sein Lieblingsspiel herunter. Die Software macht ihn tatsächlich unbesiegbar - aber auch seinen Computer zu einem Bitcoin-Mining-Zombie. Die Stromrechnung steigt um 300€.",
+                errors: [
+                    "Download von unsicheren Quellen",
+                    "Keine Antivirus-Überprüfung",
+                    "Admin-Rechte für unbekannte Software",
+                    "Fehlende System-Monitoring"
+                ],
+                reaction: [
+                    "Computer sofort isolieren",
+                    "Antivirus-Scan durchführen",
+                    "Prozesse und Netzwerk-Traffic analysieren",
+                    "System neu aufsetzen"
+                ],
+                prevention: [
+                    "Nur vertrauenswürdige Software-Quellen",
+                    "Behavioral Analysis Tools",
+                    "Restricted User Accounts",
+                    "Network Traffic Monitoring"
+                ]
+            }
+        ];
+
+        function generateStoryCard(story, index) {
+            return `
+                <div class="story-card" onclick="toggleStory(${index})">
+                    <div class="story-header">
+                        <div class="story-title">${story.emoji} ${story.title}</div>
+                        <div class="story-preview">${story.preview}</div>
+                    </div>
+                    <div class="story-content" id="story-${index}">
+                        <div class="story-text">${story.story}</div>
+                        
+                        <div class="story-reveal" id="reveal-${index}" style="display: none;">
+                            <hr style="margin: 20px 0; border: 1px solid #ecf0f1;">
+                            
+                            <div class="analysis-section">
+                                <div class="analysis-title">
+                                    ⚠️ Was war falsch?
+                                </div>
+                                <ul>
+                                    ${story.errors.map(error => `<li>${error}</li>`).join('')}
+                                </ul>
+                            </div>
+
+                            <div class="analysis-section">
+                                <div class="reaction-title">
+                                    🚨 Wie sollte man reagieren?
+                                </div>
+                                <ul>
+                                    ${story.reaction.map(action => `<li>${action}</li>`).join('')}
+                                </ul>
+                            </div>
+
+                            <div class="analysis-section">
+                                <div class="prevention-title">
+                                    🛡️ Wie hätte man es vermeiden können?
+                                </div>
+                                <ul>
+                                    ${story.prevention.map(prevention => `<li>${prevention}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="reveal-button-container" id="button-${index}">
+                            <button class="reveal-btn" onclick="event.stopPropagation(); showAnalysis(${index})">
+                                🔍 Analyse anzeigen
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function toggleStory(index) {
+            const content = document.getElementById(`story-${index}`);
+            const isOpen = content.classList.contains('open');
+            
+            // Alle anderen schließen
+            document.querySelectorAll('.story-content').forEach(c => c.classList.remove('open'));
+            document.querySelectorAll('.story-reveal').forEach(r => r.style.display = 'none');
+            document.querySelectorAll('.reveal-btn').forEach(btn => {
+                btn.textContent = '🔍 Analyse anzeigen';
+                btn.onclick = function(e) { e.stopPropagation(); showAnalysis(btn.dataset.index || parseInt(btn.onclick.toString().match(/\d+/)[0])); };
+            });
+            
+            if (!isOpen) {
+                content.classList.add('open');
+                // Analysis wieder verstecken beim Öffnen einer neuen Story
+                document.getElementById(`reveal-${index}`).style.display = 'none';
+            }
+        }
+
+        function showAnalysis(index) {
+            const reveal = document.getElementById(`reveal-${index}`);
+            const button = document.getElementById(`button-${index}`).querySelector('.reveal-btn');
+            
+            if (reveal.style.display === 'none') {
+                reveal.style.display = 'block';
+                reveal.style.animation = 'slideDown 0.3s ease';
+                button.textContent = '🙈 Analyse verstecken';
+                button.onclick = function(e) { e.stopPropagation(); hideAnalysis(index); };
+            }
+        }
+
+        function hideAnalysis(index) {
+            const reveal = document.getElementById(`reveal-${index}`);
+            const button = document.getElementById(`button-${index}`).querySelector('.reveal-btn');
+            
+            reveal.style.display = 'none';
+            button.textContent = '🔍 Analyse anzeigen';
+            button.onclick = function(e) { e.stopPropagation(); showAnalysis(index); };
+        }
+
+        let allOpen = false;
+        function toggleAllStories() {
+            const contents = document.querySelectorAll('.story-content');
+            allOpen = !allOpen;
+            
+            contents.forEach(content => {
+                if (allOpen) {
+                    content.classList.add('open');
+                } else {
+                    content.classList.remove('open');
+                }
+            });
+            
+            document.querySelector('.navigation button').textContent = 
+                allOpen ? '📖 Alle zuklappen' : '📖 Alle aufklappen';
+        }
+
+        // Stories laden
+        document.addEventListener('DOMContentLoaded', function() {
+            const grid = document.getElementById('storiesGrid');
+            grid.innerHTML = funnyStories.map((story, index) => 
+                generateStoryCard(story, index)
+            ).join('');
+        });
+    </script>
+</body>
+</html>
