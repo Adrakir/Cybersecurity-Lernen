@@ -1,5 +1,5 @@
-// Hauptintegrations-Script für das KI-Enhanced Learning System
-class EnhancedLearningPlatform {
+// Hauptintegrations-Script für das KI-Learning System
+class LearningPlatform {
     constructor() {
         this.currentTheme = localStorage.getItem('theme') || 'light';
         this.userProfile = this.loadUserProfile();
@@ -804,7 +804,7 @@ class EnhancedLearningPlatform {
 // Platform initialisieren, wenn DOM geladen ist
 document.addEventListener('DOMContentLoaded', () => {
     // Global Platform Instance
-    window.platform = new EnhancedLearningPlatform();
+    window.platform = new LearningPlatform();
 });
 
 // Service Worker registrieren für Offline-Funktionalität

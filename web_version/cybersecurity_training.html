@@ -3,13 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🛡️ Enhanced Cyber-Security Learning Platform</title>
-    <link rel="stylesheet" href="enhanced_styles.css">
+    <title>🛡️ Cybersecurity Learning Platform</title>
+    <link rel="stylesheet" href="modern_styles.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#667eea">
     <meta name="description" content="KI-gestützte Lernplattform für IT-Sicherheit mit adaptiven Quizzes und Gamification">
     <meta name="keywords" content="IT-Sicherheit, Cybersecurity, Lernen, Quiz, KI, Gamification">
-    <meta name="author" content="Enhanced Learning Platform">
+    <meta name="author" content="Learning Platform">
+    
+    <!-- Content Databases -->
+    <script src="questions_database.js"></script>
+    <script src="cases_database.js"></script>
+    <script src="funny_fails_database.js"></script>
+    <script src="extended_questions.js"></script>
+    <script src="detective_cases.js"></script>
+    <script src="bsi_communication.js"></script>
+    <script src="bsi_stories_complete.js"></script>
     
     <!-- PWA Meta Tags -->
     <meta name="application-name" content="SecuLearn">
@@ -174,6 +183,185 @@
 
         .back-btn:hover {
             background: #5a6268;
+        }
+
+        /* Content Styles */
+        .header-section {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+        }
+
+        .stories-grid, .funny-stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .story-card, .funny-story-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .story-card:hover, .funny-story-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .story-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .badge-kritisch { background: #dc3545; color: white; }
+        .badge-hoch { background: #fd7e14; color: white; }
+        .badge-mittel { background: #ffc107; color: black; }
+
+        .story-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .quiz-start {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .funny-story-card .story-icon {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .category-tag {
+            background: #e9ecef;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            color: #495057;
+        }
+
+        /* Quiz Styles */
+        .quiz-question {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .question-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            height: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .progress {
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .option-btn {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            padding: 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .option-btn:hover {
+            background: #e9ecef;
+            border-color: #6c757d;
+        }
+
+        .option-btn.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .option-btn.wrong {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .quiz-results {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            font-weight: bold;
+        }
+
+        .score {
+            font-size: 1.5em;
+        }
+
+        .percentage {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .result-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
         }
 
         /* Question Display */
@@ -1057,9 +1245,9 @@
                         <p>40 echte Fälle aus der Praxis - von lustig bis erschreckend</p>
                     </button>
 
-                    <button class="nav-card" onclick="showInteractiveCases()">
+                    <button class="nav-card" onclick="showInteractiveSimulation()">
                         <h3>🔍 Interaktive Fallstudien</h3>
-                        <p>16 realistische Cyber-Security Szenarien zum Durchspielen</p>
+                        <p>Realistische Simulation • Echtzeit-Events • KI-Feedback • Team-Kollaboration</p>
                     </button>
 
                     <button class="nav-card" onclick="showFunnyStories()">
@@ -1283,8 +1471,396 @@
     };
 
     window.showMainMenu = function() {
+        // Moderne Struktur
         document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
-        document.getElementById('main-screen').classList.add('active');
+        const mainScreen = document.getElementById('main-screen');
+        if (mainScreen) {
+            mainScreen.classList.add('active');
+        }
+        
+        // Legacy Struktur Support
+        const mainMenu = document.getElementById('mainMenu');
+        const content = document.getElementById('content');
+        if (mainMenu) {
+            mainMenu.style.display = 'block';
+        }
+        if (content) {
+            content.innerHTML = '';
+        }
+    };
+
+    // Grundlegende Navigation Funktionen
+    window.showStories = function() {
+        document.getElementById('mainMenu').style.display = 'none';
+        let storiesHtml = `
+            <div class="header-section">
+                <h2><i class="fas fa-newspaper text-primary me-3"></i>IT-Sicherheitsfälle</h2>
+                <p class="lead">Echte Fälle aus der Praxis - von lustig bis erschreckend</p>
+                <button class="btn btn-secondary" onclick="showMainMenu()">
+                    <i class="fas fa-arrow-left me-2"></i>Zurück
+                </button>
+            </div>
+            <div class="stories-grid">
+                ${generateStoriesContent()}
+            </div>`;
+        document.getElementById('content').innerHTML = storiesHtml;
+    };
+
+    window.showQuiz = function() {
+        document.getElementById('mainMenu').style.display = 'none';
+        let quizHtml = `
+            <div class="header-section">
+                <h2><i class="fas fa-question-circle text-primary me-3"></i>IT-Sicherheits Quiz</h2>
+                <p class="lead">Teste dein Wissen mit 80 praxisnahen Fragen</p>
+                <button class="btn btn-secondary" onclick="showMainMenu()">
+                    <i class="fas fa-arrow-left me-2"></i>Zurück
+                </button>
+            </div>
+            <div class="quiz-container">
+                <div class="quiz-start">
+                    <h3>Quiz starten</h3>
+                    <p>80 Fragen zu verschiedenen IT-Sicherheitsthemen</p>
+                    <button class="btn btn-primary btn-lg" onclick="startQuiz()">
+                        <i class="fas fa-play me-2"></i>Quiz starten
+                    </button>
+                </div>
+            </div>`;
+        document.getElementById('content').innerHTML = quizHtml;
+    };
+
+    window.showFunnyStories = function() {
+        document.getElementById('mainMenu').style.display = 'none';
+        let funnyHtml = `
+            <div class="header-section">
+                <h2><i class="fas fa-laugh text-primary me-3"></i>Lustige IT-Fails</h2>
+                <p class="lead">80 wahre Geschichten zum Schmunzeln und Lernen</p>
+                <button class="btn btn-secondary" onclick="showMainMenu()">
+                    <i class="fas fa-arrow-left me-2"></i>Zurück
+                </button>
+            </div>
+            <div class="funny-stories-grid">
+                ${generateFunnyStoriesContent()}
+            </div>`;
+        document.getElementById('content').innerHTML = funnyHtml;
+    };
+
+    // Content Generation Functions
+    function generateStoriesContent() {
+        if (typeof StoriesDatabase !== 'undefined') {
+            const storiesDB = new StoriesDatabase();
+            const stories = storiesDB.getRandomStories(20);
+            
+            return stories.map(story => `
+                <div class="story-card" onclick="showStoryDetails(${story.id})">
+                    <div class="story-header">
+                        <h3>${story.title}</h3>
+                        <span class="badge badge-${story.severity.toLowerCase()}">${story.severity}</span>
+                    </div>
+                    <div class="story-meta">
+                        <span class="category">${story.category}</span>
+                        <span class="year">${story.year}</span>
+                    </div>
+                    <p>${story.description}</p>
+                    <button class="btn btn-outline-primary btn-sm">Details lesen</button>
+                </div>
+            `).join('');
+        }
+        
+        // Fallback wenn Database nicht geladen
+        return `<div class="alert alert-warning">Lade Geschichten-Datenbank...</div>`;
+    }
+
+    function generateFunnyStoriesContent() {
+        if (typeof FunnyStoriesDatabase !== 'undefined') {
+            const funnyDB = new FunnyStoriesDatabase();
+            const stories = funnyDB.getRandomStories(20);
+            
+            return stories.map(story => `
+                <div class="funny-story-card" onclick="showFunnyStoryDetails(${story.id})">
+                    <div class="story-icon">${story.humor}</div>
+                    <h3>${story.title}</h3>
+                    <p>${story.description}</p>
+                    <div class="story-footer">
+                        <span class="category-tag">${story.category}</span>
+                        <span class="funny-rating">Spaßfaktor: ${story.funnyRating}/10</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        return `<div class="alert alert-warning">Lade lustige Geschichten-Datenbank...</div>`;
+    }
+
+    // Story Detail Functions
+    window.showStoryDetails = function(storyId) {
+        if (typeof StoriesDatabase !== 'undefined') {
+            const storiesDB = new StoriesDatabase();
+            const story = storiesDB.getStoryById(storyId);
+            
+            if (story) {
+                const detailHtml = `
+                    <div class="story-detail">
+                        <div class="story-detail-header">
+                            <h2>${story.title}</h2>
+                            <div class="story-badges">
+                                <span class="badge badge-${story.severity.toLowerCase()}">${story.severity}</span>
+                                <span class="badge badge-category">${story.category}</span>
+                                <span class="badge badge-year">${story.year}</span>
+                            </div>
+                        </div>
+                        <div class="story-detail-content">
+                            <h3>Beschreibung</h3>
+                            <p>${story.description}</p>
+                            
+                            <h3>Details</h3>
+                            <p>${story.details}</p>
+                            
+                            <h3>Lessons Learned</h3>
+                            <ul>
+                                ${story.lessons.map(lesson => `<li>${lesson}</li>`).join('')}
+                            </ul>
+                            
+                            <div class="source">
+                                <small><strong>Quelle:</strong> ${story.source}</small>
+                            </div>
+                        </div>
+                        <div class="story-actions">
+                            <button class="btn btn-secondary" onclick="showStories()">
+                                <i class="fas fa-arrow-left me-2"></i>Zurück
+                            </button>
+                        </div>
+                    </div>`;
+                
+                document.getElementById('content').innerHTML = detailHtml;
+            }
+        }
+    };
+
+    window.showFunnyStoryDetails = function(storyId) {
+        if (typeof FunnyStoriesDatabase !== 'undefined') {
+            const funnyDB = new FunnyStoriesDatabase();
+            const story = funnyDB.getStoryById(storyId);
+            
+            if (story) {
+                const detailHtml = `
+                    <div class="funny-story-detail">
+                        <div class="funny-story-header">
+                            <div class="big-emoji">${story.humor}</div>
+                            <h2>${story.title}</h2>
+                            <div class="funny-rating-display">
+                                Spaßfaktor: ${story.funnyRating}/10 ${'⭐'.repeat(Math.min(story.funnyRating, 5))}
+                            </div>
+                        </div>
+                        <div class="funny-story-content">
+                            <h3>Was ist passiert?</h3>
+                            <p>${story.description}</p>
+                            
+                            <h3>Die ganze Geschichte</h3>
+                            <p>${story.details}</p>
+                            
+                            <div class="lesson-learned">
+                                <h4>💡 Lesson Learned</h4>
+                                <p><em>${story.lesson}</em></p>
+                            </div>
+                            
+                            <div class="source">
+                                <small><strong>Quelle:</strong> ${story.source}</small>
+                            </div>
+                        </div>
+                        <div class="funny-actions">
+                            <button class="btn btn-secondary" onclick="showFunnyStories()">
+                                <i class="fas fa-arrow-left me-2"></i>Zurück
+                            </button>
+                            <button class="btn btn-primary" onclick="getRandomFunnyStory()">
+                                <i class="fas fa-random me-2"></i>Zufällige Geschichte
+                            </button>
+                        </div>
+                    </div>`;
+                
+                document.getElementById('content').innerHTML = detailHtml;
+            }
+        }
+    };
+
+    window.getRandomFunnyStory = function() {
+        if (typeof FunnyStoriesDatabase !== 'undefined') {
+            const funnyDB = new FunnyStoriesDatabase();
+            const randomStory = funnyDB.getRandomStories(1)[0];
+            showFunnyStoryDetails(randomStory.id);
+        }
+    };
+
+    // Quiz Funktionalität
+    window.startQuiz = function() {
+        let questions = [];
+        
+        if (typeof QuizDatabase !== 'undefined') {
+            const quizDB = new QuizDatabase();
+            questions = quizDB.getRandomQuestions(20); // 20 zufällige Fragen
+            
+            // Zeige Statistiken
+            console.log(`Lade Quiz mit ${questions.length} Fragen aus ${quizDB.getQuestionCount()} verfügbaren Fragen`);
+        } else {
+            // Fallback Fragen wenn Database nicht geladen
+            questions = [
+                {
+                    question: "Was ist Phishing?",
+                    options: [
+                        "Eine Angelmethode",
+                        "Ein Cyberangriff zur Datensammlung",
+                        "Ein Netzwerkprotokoll",
+                        "Eine Programmiersprache"
+                    ],
+                    correct: 1,
+                    explanation: "Phishing ist ein Cyberangriff, bei dem Angreifer versuchen, vertrauliche Informationen zu stehlen."
+                }
+            ];
+        }
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answers = [];
+
+        function showQuestion(index) {
+            const q = questions[index];
+            const quizHtml = `
+                <div class="quiz-question">
+                    <div class="question-header">
+                        <h3>Frage ${index + 1} von ${questions.length}</h3>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: ${((index + 1) / questions.length) * 100}%"></div>
+                        </div>
+                        ${q.category ? `<div class="question-category">Kategorie: ${q.category}</div>` : ''}
+                    </div>
+                    <div class="question-content">
+                        <h4>${q.question}</h4>
+                        <div class="options">
+                            ${q.options.map((option, i) => `
+                                <button class="option-btn" onclick="selectAnswer(${i})" data-index="${i}">
+                                    ${String.fromCharCode(65 + i)}) ${option}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>`;
+            document.querySelector('.quiz-container').innerHTML = quizHtml;
+        }
+
+        window.selectAnswer = function(selectedIndex) {
+            const q = questions[currentQuestion];
+            const buttons = document.querySelectorAll('.option-btn');
+            
+            // Deaktiviere alle Buttons und zeige Antworten
+            buttons.forEach((btn, index) => {
+                btn.disabled = true;
+                if (index === q.correct) {
+                    btn.classList.add('correct');
+                } else if (index === selectedIndex && index !== q.correct) {
+                    btn.classList.add('wrong');
+                }
+            });
+
+            // Speichere Antwort
+            const isCorrect = selectedIndex === q.correct;
+            answers.push({
+                question: q.question,
+                selectedIndex,
+                correctIndex: q.correct,
+                isCorrect,
+                category: q.category || 'Allgemein'
+            });
+
+            if (isCorrect) {
+                score++;
+            }
+
+            // Zeige Erklärung
+            if (q.explanation) {
+                const explanationDiv = document.createElement('div');
+                explanationDiv.className = 'explanation';
+                explanationDiv.innerHTML = `
+                    <div class="explanation-content">
+                        <h5>💡 Erklärung:</h5>
+                        <p>${q.explanation}</p>
+                    </div>`;
+                document.querySelector('.question-content').appendChild(explanationDiv);
+            }
+
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    showQuestion(currentQuestion);
+                } else {
+                    showResults();
+                }
+            }, 3000);
+        };
+
+        function showResults() {
+            const percentage = Math.round((score / questions.length) * 100);
+            
+            // Kategorien-Analyse
+            const categoryStats = {};
+            answers.forEach(answer => {
+                if (!categoryStats[answer.category]) {
+                    categoryStats[answer.category] = { correct: 0, total: 0 };
+                }
+                categoryStats[answer.category].total++;
+                if (answer.isCorrect) {
+                    categoryStats[answer.category].correct++;
+                }
+            });
+
+            const categoryAnalysis = Object.entries(categoryStats).map(([category, stats]) => {
+                const categoryPercentage = Math.round((stats.correct / stats.total) * 100);
+                return `
+                    <div class="category-result">
+                        <span class="category-name">${category}:</span>
+                        <span class="category-score">${stats.correct}/${stats.total} (${categoryPercentage}%)</span>
+                        <div class="category-bar">
+                            <div class="category-progress" style="width: ${categoryPercentage}%"></div>
+                        </div>
+                    </div>`;
+            }).join('');
+
+            const resultHtml = `
+                <div class="quiz-results">
+                    <h3>Quiz beendet!</h3>
+                    <div class="score-display">
+                        <div class="score-circle">
+                            <span class="score">${score}/${questions.length}</span>
+                            <span class="percentage">${percentage}%</span>
+                        </div>
+                    </div>
+                    <p class="result-message">
+                        ${percentage >= 90 ? '🎉 Ausgezeichnet! Du bist ein Cybersecurity-Experte!' :
+                          percentage >= 80 ? '👍 Sehr gut! Du kennst dich gut aus!' :
+                          percentage >= 70 ? '📚 Gut! Noch etwas Übung und du bist Profi!' :
+                          percentage >= 60 ? '� Okay! Weiter lernen lohnt sich!' :
+                          '📖 Übung macht den Meister! Lies dir die Erklärungen durch!'}
+                    </p>
+                    
+                    <div class="category-analysis">
+                        <h4>Analyse nach Kategorien:</h4>
+                        ${categoryAnalysis}
+                    </div>
+                    
+                    <div class="result-actions">
+                        <button class="btn btn-primary" onclick="startQuiz()">
+                            <i class="fas fa-redo me-2"></i>Nochmal versuchen
+                        </button>
+                        <button class="btn btn-info" onclick="showQuizStatistics()">
+                            <i class="fas fa-chart-bar me-2"></i>Detailstatistik
+                        </button>
+                        <button class="btn btn-secondary" onclick="showMainMenu()">
+                            <i class="fas fa-home me-2"></i>Hauptmenü
+                        </button>
+                    </div>
+                </div>`;
+            document.querySelector('.quiz-container').innerHTML = resultHtml;
+        }
+
+        showQuestion(0);
     };
 
     window.showResultsTab = function(tabName) {
@@ -1298,6 +1874,15 @@
     };
     </script>
     
+    <!-- Interactive Simulation System -->
+    <script src="interactive_simulation.js"></script>
+    <script src="ai_feedback_system.js"></script>
+    
+    <!-- Content Databases -->
+    <script src="quiz_database.js"></script>
+    <script src="stories_database.js"></script>
+    <script src="funny_stories_database.js"></script>
+    
     <!-- Master Integration Suite v3.0 -->
     <script src="master_integration.js"></script>
     <script src="performance_optimizer.js"></script>
@@ -1305,16 +1890,16 @@
     <!-- Module Loader (lädt alle anderen Module intelligent) -->
     <script src="module_loader.js"></script>
     
-    <!-- Core Enhancement Modules -->
-    <script src="advanced_analytics.js"></script>
+    <!-- Core Modules -->
+    <script src="analytics.js"></script>
     <script src="smart_notifications.js"></script>
     <script src="collaboration_system.js"></script>
     
-    <!-- Enhanced Platform Scripts -->
+    <!-- Platform Scripts -->
     <script src="ai_learning_service.js"></script>
     <script src="gamification_engine.js"></script>
     <script src="adaptive_quiz_engine.js"></script>
-    <script src="enhanced_platform.js"></script>
+    <script src="learning_platform.js"></script>
     
     <!-- Platform v3.0 Master Integration Initialization -->
     <script>
@@ -1488,6 +2073,44 @@
             status.innerHTML = '✅ Master Integration Active';
             document.body.appendChild(status);
         });
+
+        // Interactive Simulation System
+        function showInteractiveSimulation() {
+            // Verstecke Hauptmenü
+            document.getElementById('mainMenu').style.display = 'none';
+            
+            // Zeige Simulation Interface
+            let casesHtml = `
+                <div class="simulation-container">
+                    <div class="header-section">
+                        <h2><i class="fas fa-microscope text-primary me-3"></i>Interaktive Fallstudien</h2>
+                        <p class="lead">Realistische Cybersecurity-Simulation mit Echtzeit-Features</p>
+                        <button class="btn btn-secondary" onclick="showMainMenu()">
+                            <i class="fas fa-arrow-left me-2"></i>Zurück
+                        </button>
+                    </div>
+                    
+                    <div class="simulation-workspace" style="margin-top: 20px;">
+                        <iframe src="simulation_interface.html" 
+                                style="width: 100%; height: 80vh; border: none; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+                        </iframe>
+                    </div>
+                </div>`;
+            
+            document.getElementById('content').innerHTML = casesHtml;
+            
+            // Initialisiere Simulation System
+            if (typeof InteractiveSimulation !== 'undefined') {
+                window.simulation = new InteractiveSimulation();
+                console.log('✅ Interactive Simulation geladen');
+            }
+            
+            // Initialisiere AI Feedback System
+            if (typeof AIFeedbackSystem !== 'undefined') {
+                window.aiFeedback = new AIFeedbackSystem();
+                console.log('✅ AI Feedback System geladen');
+            }
+        }
     </script>
 </body>
 </html>

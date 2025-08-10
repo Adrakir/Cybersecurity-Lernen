@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Interactive Simulation - Cybersecurity Training</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --border-color: #475569;
+            --glass-bg: rgba(30, 41, 59, 0.8);
+            --stress-high: #dc2626;
+            --stress-medium: #f59e0b;
+            --stress-low: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .skill-level {
+            padding: 0.5rem 1rem;
+            background: var(--success-color);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            gap: 2rem;
+        }
+
+        .case-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .case-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .case-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
+        }
+
+        .case-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .case-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .case-meta {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .difficulty-easy { background-color: rgba(16, 185, 129, 0.2); color: var(--success-color); }
+        .difficulty-medium { background-color: rgba(245, 158, 11, 0.2); color: var(--warning-color); }
+        .difficulty-hard { background-color: rgba(239, 68, 68, 0.2); color: var(--error-color); }
+        .difficulty-adaptive { background-color: rgba(59, 130, 246, 0.2); color: var(--primary-color); }
+
+        .case-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .case-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .case-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .simulation-container {
+            display: none;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .simulation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .simulation-status {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .status-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .status-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .timer {
+            color: var(--warning-color);
+        }
+
+        .stress-low { color: var(--stress-low); }
+        .stress-medium { color: var(--stress-medium); }
+        .stress-high { color: var(--stress-high); }
+
+        .simulation-workspace {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            min-height: 600px;
+        }
+
+        .main-scenario {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .scenario-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .scenario-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), #06b6d4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .scenario-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .scenario-timestamp {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .scenario-content {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .scenario-text {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .stress-indicators {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stress-indicator {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .decision-section {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .decision-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--warning-color);
+        }
+
+        .decision-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .decision-option {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .decision-option:hover {
+            border-color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .decision-option.selected {
+            border-color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.2);
+        }
+
+        .option-text {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .option-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .option-impact {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .sidebar-section {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .sidebar-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tools-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .tool-item {
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .tool-item:hover {
+            border-color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .tool-item.active {
+            border-color: var(--success-color);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .tool-name {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .tool-time {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .realtime-events {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .event-item {
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            border-left: 3px solid var(--warning-color);
+        }
+
+        .event-time {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .event-message {
+            font-size: 0.9rem;
+        }
+
+        .team-chat {
+            max-height: 250px;
+            overflow-y: auto;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            padding: 1rem;
+        }
+
+        .chat-message {
+            margin-bottom: 0.75rem;
+            padding: 0.5rem;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+        }
+
+        .chat-sender {
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .chat-text {
+            font-size: 0.9rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), #1d4ed8);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .results-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .performance-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .achievements {
+            margin-bottom: 2rem;
+        }
+
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .achievement-icon {
+            font-size: 1.5rem;
+        }
+
+        .achievement-text {
+            flex: 1;
+        }
+
+        .achievement-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .achievement-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .floating-hint {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            max-width: 300px;
+            display: none;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .hint-content {
+            margin-bottom: 1rem;
+        }
+
+        .hint-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .hint-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1rem;
+            }
+            
+            .case-selector {
+                grid-template-columns: 1fr;
+            }
+            
+            .simulation-workspace {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">
+                <h1>🎯 Interactive Simulation</h1>
+            </div>
+            <div class="user-info">
+                <div class="skill-level" id="userSkillLevel">Level 3 - Intermediate</div>
+                <button class="btn-secondary" onclick="openSettings()">⚙️ Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="case-selector" id="caseSelector">
+            <!-- Cases werden dynamisch geladen -->
+        </div>
+
+        <div class="simulation-container" id="simulationContainer">
+            <div class="simulation-header">
+                <h2 id="currentCaseTitle">🚨 Cyber Incident Response - Live Simulation</h2>
+                <div class="simulation-status">
+                    <div class="status-item">
+                        <div class="status-value timer" id="timeRemaining">10:00</div>
+                        <div class="status-label">Zeit verbleibend</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-value" id="currentScore">0</div>
+                        <div class="status-label">Punkte</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-value stress-medium" id="stressLevel">MEDIUM</div>
+                        <div class="status-label">Stress Level</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-value" id="phaseIndicator">Phase 1</div>
+                        <div class="status-label">Aktuelle Phase</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="simulation-workspace">
+                <div class="main-scenario">
+                    <div class="scenario-header">
+                        <div class="scenario-icon">🚨</div>
+                        <div class="scenario-info">
+                            <h3 id="scenarioTitle">Ransomware-Angriff erkannt</h3>
+                            <div class="scenario-timestamp" id="scenarioTime">Freitag, 14:30 Uhr - Corporate HQ</div>
+                        </div>
+                    </div>
+
+                    <div class="scenario-content">
+                        <div class="scenario-text" id="scenarioDescription">
+                            Es ist ein ruhiger Freitagnachmittag. Plötzlich schlägt das SIEM-System Alarm: 
+                            Ungewöhnliche Netzwerkaktivitäten werden erkannt. Verschlüsselte Datenübertragungen 
+                            zu unbekannten IP-Adressen in Osteuropa. Die ersten Dateiserver melden 
+                            "Zugriff verweigert"-Fehler...
+                        </div>
+                        
+                        <div class="stress-indicators">
+                            <div class="stress-indicator" style="background-color: rgba(245, 158, 11, 0.2); color: var(--warning-color);">
+                                💰 Kosten: 10.000€/Min
+                            </div>
+                            <div class="stress-indicator" style="background-color: rgba(239, 68, 68, 0.2); color: var(--error-color);">
+                                📞 CEO ruft alle 10 Min
+                            </div>
+                            <div class="stress-indicator" style="background-color: rgba(59, 130, 246, 0.2); color: var(--primary-color);">
+                                📰 Medien werden aufmerksam
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="decision-section">
+                        <div class="decision-title">⚡ Sofortige Entscheidung erforderlich:</div>
+                        
+                        <div class="decision-options" id="decisionOptions">
+                            <div class="decision-option" onclick="selectDecision(0)">
+                                <div class="option-text">🔒 Alle betroffenen Systeme sofort vom Netzwerk isolieren</div>
+                                <div class="option-details">
+                                    <div class="option-impact">
+                                        <span>⚡ Risiko: Niedrig</span>
+                                        <span>🎯 Punkte: +25</span>
+                                        <span>⏱️ Zeit: -2 Min</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="decision-option" onclick="selectDecision(1)">
+                                <div class="option-text">🔍 Detaillierte Analyse der Bedrohung durchführen</div>
+                                <div class="option-details">
+                                    <div class="option-impact">
+                                        <span>⚡ Risiko: Mittel</span>
+                                        <span>🎯 Punkte: +15</span>
+                                        <span>⏱️ Zeit: -5 Min</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="decision-option" onclick="selectDecision(2)">
+                                <div class="option-text">📞 Sofortige Eskalation an Management und externe Experten</div>
+                                <div class="option-details">
+                                    <div class="option-impact">
+                                        <span>⚡ Risiko: Niedrig</span>
+                                        <span>🎯 Punkte: +20</span>
+                                        <span>⏱️ Zeit: +3 Min</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" id="confirmDecision" disabled onclick="confirmDecision()">
+                                ✅ Entscheidung bestätigen
+                            </button>
+                            <button class="btn btn-secondary" onclick="requestHint()">
+                                💡 Hinweis anfordern
+                            </button>
+                            <button class="btn btn-secondary" onclick="pauseSimulation()">
+                                ⏸️ Pause
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar">
+                    <div class="sidebar-section">
+                        <div class="sidebar-title">🛠️ Verfügbare Tools</div>
+                        <div class="tools-list">
+                            <div class="tool-item" onclick="useTool('siem')">
+                                <div class="tool-name">SIEM Dashboard</div>
+                                <div class="tool-time">Verwendung: 60s</div>
+                            </div>
+                            <div class="tool-item" onclick="useTool('network')">
+                                <div class="tool-name">Network Analyzer</div>
+                                <div class="tool-time">Verwendung: 180s</div>
+                            </div>
+                            <div class="tool-item" onclick="useTool('edr')">
+                                <div class="tool-name">EDR Console</div>
+                                <div class="tool-time">Verwendung: 120s</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <div class="sidebar-title">🚨 Live Events</div>
+                        <div class="realtime-events" id="realtimeEvents">
+                            <div class="event-item">
+                                <div class="event-time">14:32</div>
+                                <div class="event-message">🔥 5 weitere Server zeigen Verschlüsselungsaktivität</div>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-time">14:33</div>
+                                <div class="event-message">📞 CEO fordert sofortigen Status-Report</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <div class="sidebar-title">👥 Team Chat</div>
+                        <div class="team-chat" id="teamChat">
+                            <div class="chat-message">
+                                <div class="chat-sender">Security Analyst</div>
+                                <div class="chat-text">SIEM zeigt weitere verdächtige Aktivitäten auf Server-03</div>
+                            </div>
+                            <div class="chat-message">
+                                <div class="chat-sender">System Admin</div>
+                                <div class="chat-text">Backup-Systeme sind bereit für Recovery-Prozess</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div class="results-modal" id="resultsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">🎯 Simulation abgeschlossen!</div>
+                <div style="color: var(--text-secondary);">Ihre Performance wird ausgewertet...</div>
+            </div>
+
+            <div class="performance-metrics">
+                <div class="metric-card">
+                    <div class="metric-value" id="finalScore">87</div>
+                    <div class="metric-label">Gesamtpunkte</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="timeEfficiency">92%</div>
+                    <div class="metric-label">Zeit-Effizienz</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="stressManagement">B+</div>
+                    <div class="metric-label">Stress-Management</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="decisionQuality">A-</div>
+                    <div class="metric-label">Entscheidungsqualität</div>
+                </div>
+            </div>
+
+            <div class="achievements">
+                <h3>🏆 Errungenschaften</h3>
+                <div class="achievement-item">
+                    <div class="achievement-icon">🧊</div>
+                    <div class="achievement-text">
+                        <div class="achievement-title">Kühler Kopf unter Druck</div>
+                        <div class="achievement-desc">Exzellente Entscheidungen unter hohem Stress</div>
+                    </div>
+                </div>
+                <div class="achievement-item">
+                    <div class="achievement-icon">⚡</div>
+                    <div class="achievement-text">
+                        <div class="achievement-title">Schnelle Reaktion</div>
+                        <div class="achievement-desc">Incident in Rekordzeit eingedämmt</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="startNewCase()">
+                    🔄 Neue Simulation starten
+                </button>
+                <button class="btn btn-secondary" onclick="exportResults()">
+                    📊 Ergebnisse exportieren
+                </button>
+                <button class="btn btn-secondary" onclick="closeResults()">
+                    ← Zurück zur Auswahl
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Hint -->
+    <div class="floating-hint" id="floatingHint">
+        <div class="hint-content">
+            <strong>💡 Experten-Tipp:</strong><br>
+            Bei einem Ransomware-Angriff ist die sofortige Isolierung betroffener Systeme 
+            entscheidend, um eine weitere Ausbreitung zu verhindern.
+        </div>
+        <div class="hint-actions">
+            <button class="hint-btn btn-primary" onclick="applyHint()">Anwenden</button>
+            <button class="hint-btn btn-secondary" onclick="closeHint()">Schließen</button>
+        </div>
+    </div>
+
+    <!-- Interactive Simulation Script -->
+    <script src="interactive_simulation.js"></script>
+    
+    <script>
+        // UI Controller für Simulation
+        class CaseUIController {
+            constructor() {
+                this.selectedDecision = null;
+                this.currentCase = null;
+                this.simulationActive = false;
+                this.timerInterval = null;
+                
+                this.initializeUI();
+            }
+
+            initializeUI() {
+                this.loadAvailableCases();
+                this.setupEventListeners();
+            }
+
+            loadAvailableCases() {
+                const casesData = [
+                    {
+                        id: 'cyber_incident_response',
+                        title: '🚨 Cyber Incident Response',
+                        difficulty: 'adaptive',
+                        description: 'Realistische Simulation eines Ransomware-Angriffs mit Zeitdruck und Stress-Faktoren',
+                        features: ['Realzeit-Simulation', 'Team-Collaboration', 'Stress-Management', 'Tool-Integration'],
+                        estimatedTime: '25-45 Min',
+                        completionRate: 78,
+                        averageScore: 84
+                    },
+                    {
+                        id: 'social_engineering_defense',
+                        title: '🎭 Social Engineering Defense',
+                        difficulty: 'medium',
+                        description: 'Interaktives Training zur Erkennung und Abwehr von Social Engineering Angriffen',
+                        features: ['Psychologie-Analyse', 'Gesprächs-Simulation', 'Realistische Szenarien'],
+                        estimatedTime: '15-30 Min',
+                        completionRate: 92,
+                        averageScore: 88
+                    },
+                    {
+                        id: 'compliance_audit_simulation',
+                        title: '📋 GDPR Compliance Audit',
+                        difficulty: 'hard',
+                        description: 'Simulation einer GDPR-Prüfung mit realitätsnahen Dokumentenanforderungen',
+                        features: ['Dokumenten-Management', 'Zeitdruck', 'Rechtliche Aspekte'],
+                        estimatedTime: '45-60 Min',
+                        completionRate: 65,
+                        averageScore: 76
+                    }
+                ];
+
+                const container = document.getElementById('caseSelector');
+                container.innerHTML = casesData.map(case_data => `
+                    <div class="case-card" onclick="selectCase('${case_data.id}')">
+                        <div class="case-header">
+                            <div>
+                                <div class="case-title">${case_data.title}</div>
+                                <div class="case-meta">
+                                    <span class="meta-tag difficulty-${case_data.difficulty}">${case_data.difficulty}</span>
+                                    <span class="meta-tag" style="background-color: rgba(59, 130, 246, 0.2); color: var(--primary-color);">${case_data.estimatedTime}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="case-description">${case_data.description}</div>
+                        
+                        <div class="case-features">
+                            ${case_data.features.map(feature => `
+                                <div class="feature-item">
+                                    <span>✓</span>
+                                    <span>${feature}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="case-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">${case_data.completionRate}%</div>
+                                <div class="stat-label">Abschlussrate</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${case_data.averageScore}</div>
+                                <div class="stat-label">Ø Score</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">4.8★</div>
+                                <div class="stat-label">Bewertung</div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            setupEventListeners() {
+                // Timer Update
+                setInterval(() => {
+                    this.updateRealtimeElements();
+                }, 1000);
+            }
+
+            updateRealtimeElements() {
+                if (!this.simulationActive) return;
+
+                // Simulate realtime events
+                if (Math.random() < 0.1) { // 10% chance per second
+                    this.addRealtimeEvent();
+                }
+
+                // Update team chat
+                if (Math.random() < 0.05) { // 5% chance
+                    this.addTeamMessage();
+                }
+            }
+
+            addRealtimeEvent() {
+                const events = [
+                    '🔥 3 weitere Workstations zeigen Verdacht auf Kompromittierung',
+                    '📧 Erste Erpresser-E-Mail ist bei der Geschäftsführung eingegangen',
+                    '🌐 Externe IP-Kommunikation zu bekanntem Botnet erkannt',
+                    '💾 Backup-Server zeigt ungewöhnliche Aktivitäten'
+                ];
+
+                const event = events[Math.floor(Math.random() * events.length)];
+                const time = new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+                
+                const eventsContainer = document.getElementById('realtimeEvents');
+                const eventElement = document.createElement('div');
+                eventElement.className = 'event-item';
+                eventElement.innerHTML = `
+                    <div class="event-time">${time}</div>
+                    <div class="event-message">${event}</div>
+                `;
+                
+                eventsContainer.insertBefore(eventElement, eventsContainer.firstChild);
+                
+                // Keep only last 5 events
+                while (eventsContainer.children.length > 5) {
+                    eventsContainer.removeChild(eventsContainer.lastChild);
+                }
+            }
+
+            addTeamMessage() {
+                const messages = [
+                    { sender: 'Security Analyst', text: 'Neue IOCs identifiziert - teile Informationen im SIEM' },
+                    { sender: 'Incident Commander', text: 'Status-Update: Management erwartet Briefing in 10 Minuten' },
+                    { sender: 'IT Admin', text: 'Kritische Systeme sind isoliert, Recovery-Prozess kann beginnen' },
+                    { sender: 'Legal Team', text: 'Meldepflicht-Fristen beachten - GDPR Compliance sicherstellen' }
+                ];
+
+                const message = messages[Math.floor(Math.random() * messages.length)];
+                const chatContainer = document.getElementById('teamChat');
+                
+                const messageElement = document.createElement('div');
+                messageElement.className = 'chat-message';
+                messageElement.innerHTML = `
+                    <div class="chat-sender">${message.sender}</div>
+                    <div class="chat-text">${message.text}</div>
+                `;
+                
+                chatContainer.appendChild(messageElement);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                
+                // Keep only last 8 messages
+                while (chatContainer.children.length > 8) {
+                    chatContainer.removeChild(chatContainer.firstChild);
+                }
+            }
+        }
+
+        // Global Functions
+        function selectCase(caseId) {
+            console.log('Starting case:', caseId);
+            
+            // Hide case selector
+            document.getElementById('caseSelector').style.display = 'none';
+            
+            // Show simulation
+            document.getElementById('simulationContainer').style.display = 'block';
+            
+            // Start simulation
+            if (window.simulation) {
+                window.enhancedCases.startRealtimeSimulation(caseId, 'security_analyst');
+            }
+            
+            uiController.simulationActive = true;
+            uiController.currentCase = caseId;
+        }
+
+        function selectDecision(index) {
+            // Remove previous selection
+            document.querySelectorAll('.decision-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Select current option
+            document.querySelectorAll('.decision-option')[index].classList.add('selected');
+            uiController.selectedDecision = index;
+            
+            // Enable confirm button
+            document.getElementById('confirmDecision').disabled = false;
+        }
+
+        function confirmDecision() {
+            if (uiController.selectedDecision === null) return;
+            
+            console.log('Decision confirmed:', uiController.selectedDecision);
+            
+            // Simulate processing
+            setTimeout(() => {
+                showResults();
+            }, 2000);
+        }
+
+        function requestHint() {
+            document.getElementById('floatingHint').style.display = 'block';
+        }
+
+        function closeHint() {
+            document.getElementById('floatingHint').style.display = 'none';
+        }
+
+        function applyHint() {
+            // Auto-select best option (first one in this case)
+            selectDecision(0);
+            closeHint();
+        }
+
+        function useTool(toolId) {
+            console.log('Using tool:', toolId);
+            
+            // Mark tool as active
+            document.querySelectorAll('.tool-item').forEach(tool => {
+                tool.classList.remove('active');
+            });
+            
+            event.target.closest('.tool-item').classList.add('active');
+            
+            // Simulate tool usage
+            setTimeout(() => {
+                event.target.closest('.tool-item').classList.remove('active');
+            }, 3000);
+        }
+
+        function pauseSimulation() {
+            uiController.simulationActive = !uiController.simulationActive;
+            const btn = event.target;
+            btn.textContent = uiController.simulationActive ? '⏸️ Pause' : '▶️ Fortsetzen';
+        }
+
+        function showResults() {
+            document.getElementById('resultsModal').style.display = 'flex';
+            
+            // Animate metrics
+            setTimeout(() => {
+                animateMetrics();
+            }, 500);
+        }
+
+        function animateMetrics() {
+            const metrics = [
+                { id: 'finalScore', target: 87 },
+                { id: 'timeEfficiency', target: 92, suffix: '%' },
+            ];
+
+            metrics.forEach(metric => {
+                animateValue(metric.id, 0, metric.target, 1000, metric.suffix || '');
+            });
+        }
+
+        function animateValue(id, start, end, duration, suffix = '') {
+            const element = document.getElementById(id);
+            const range = end - start;
+            const increment = range / (duration / 16);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= end) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.round(current) + suffix;
+            }, 16);
+        }
+
+        function startNewCase() {
+            document.getElementById('resultsModal').style.display = 'none';
+            document.getElementById('simulationContainer').style.display = 'none';
+            document.getElementById('caseSelector').style.display = 'grid';
+            
+            uiController.simulationActive = false;
+            uiController.selectedDecision = null;
+        }
+
+        function exportResults() {
+            const results = {
+                case_id: uiController.currentCase,
+                timestamp: new Date(),
+                score: 87,
+                time_efficiency: 92,
+                stress_management: 'B+',
+                decision_quality: 'A-'
+            };
+            
+            const blob = new Blob([JSON.stringify(results, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `case-results-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function closeResults() {
+            document.getElementById('resultsModal').style.display = 'none';
+        }
+
+        function openSettings() {
+            alert('Settings-Dialog würde hier geöffnet werden');
+        }
+
+        // Initialize UI Controller
+        let uiController;
+        document.addEventListener('DOMContentLoaded', () => {
+            uiController = new CaseUIController();
+        });
+    </script>
+</body>
+</html>

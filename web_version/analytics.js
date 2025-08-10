@@ -1,5 +1,5 @@
-// Advanced Analytics Dashboard für Enhanced Learning Platform
-class AdvancedAnalytics {
+// Analytics Dashboard für Learning Platform
+class Analytics {
     constructor() {
         this.sessionData = {
             startTime: new Date(),
@@ -417,13 +417,13 @@ class AdvancedAnalytics {
                 </div>
                 
                 <div class="dashboard-footer">
-                    <button onclick="advancedAnalytics.exportReport()" class="btn-primary">
+                    <button onclick="analytics.exportReport()" class="btn-primary">
                         📥 Detailbericht exportieren
                     </button>
-                    <button onclick="advancedAnalytics.shareReport()" class="btn-secondary">
+                    <button onclick="analytics.shareReport()" class="btn-secondary">
                         📤 Bericht teilen
                     </button>
-                    <button onclick="advancedAnalytics.scheduleReport()" class="btn-secondary">
+                    <button onclick="analytics.scheduleReport()" class="btn-secondary">
                         ⏰ Regelmäßige Berichte
                     </button>
                 </div>
@@ -751,4 +751,4 @@ if (!document.querySelector('#analytics-css')) {
 }
 
 // Global Analytics Instance
-window.advancedAnalytics = new AdvancedAnalytics();
+window.analytics = new Analytics();
