@@ -1,0 +1,39 @@
+{
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "start:node": "npx serve -p 3000",
+    "dev": "live-server --port=3000",
+    "build": "echo 'No build step required for vanilla JS/HTML/CSS'",
+    "test": "echo 'Run tests with browser dev tools'",
+    "deploy:netlify": "netlify deploy --prod --dir=.",
+    "deploy:vercel": "vercel --prod",
+    "lighthouse": "lighthouse http://localhost:8000/cybersecurity_training.html --output=html --output-path=./lighthouse-report.html",
+    "validate": "html5validator --root . --also-check-css --format text",
+    "optimize": "echo 'Optimization: Minify CSS/JS for production'"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "serve": "^14.2.1",
+    "lighthouse": "^11.0.0",
+    "html5validator": "^0.4.2"
+  },
+  "keywords": [
+    "cybersecurity",
+    "learning",
+    "ai",
+    "education",
+    "quiz",
+    "gamification",
+    "pwa"
+  ],
+  "author": "Enhanced Learning Platform",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/enhanced-security-learning.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/enhanced-security-learning/issues"
+  },
+  "homepage": "https://github.com/yourusername/enhanced-security-learning#readme"
+}

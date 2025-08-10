@@ -1,0 +1,143 @@
+{
+  "name": "Enhanced Cyber-Security Learning Platform",
+  "short_name": "SecuLearn",
+  "description": "KI-gestützte Lernplattform für IT-Sicherheit mit adaptiven Quizzes und Gamification",
+  "version": "1.0.0",
+  "start_url": "/cybersecurity_training.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#667eea",
+  "background_color": "#ffffff",
+  "lang": "de",
+  "scope": "/",
+  "categories": ["education", "productivity", "business"],
+  "icons": [
+    {
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/desktop-1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Desktop Ansicht der Lernplattform"
+    },
+    {
+      "src": "/screenshots/mobile-1.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Mobile Ansicht der Quiz-Oberfläche"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Neues Quiz starten",
+      "short_name": "Quiz",
+      "description": "Startet ein neues adaptives Quiz",
+      "url": "/cybersecurity_training.html?action=quiz",
+      "icons": [
+        {
+          "src": "/icons/shortcut-quiz.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Fortschritt anzeigen",
+      "short_name": "Fortschritt",
+      "description": "Zeigt den aktuellen Lernfortschritt",
+      "url": "/cybersecurity_training.html?action=progress",
+      "icons": [
+        {
+          "src": "/icons/shortcut-progress.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "KI-Tutor",
+      "short_name": "KI-Tutor",
+      "description": "Öffnet den KI-gestützten Tutor",
+      "url": "/cybersecurity_training.html?action=ai-tutor",
+      "icons": [
+        {
+          "src": "/icons/shortcut-ai.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+seculearn",
+      "url": "/cybersecurity_training.html?action=%s"
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "play",
+      "id": "com.seculearn.app"
+    }
+  ],
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
+}
