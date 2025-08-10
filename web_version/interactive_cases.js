@@ -1,6 +1,4 @@
-// Echte interaktive Quest-Fallstudien
-// Jede Entscheidung verändert den Spielverlauf dramatisch
-
+// Interaktive Fallstudien für IT-Sicherheit
 const interactiveQuests = {
     easy: [
         {
@@ -19,14 +17,8 @@ const interactiveQuests = {
                     situation: "Was ist Ihre erste Reaktion?",
                     choices: [
                         {
-                            text: "USB-Stick sofort mitnehmen und am Computer anschließen",
-                            consequence: "usb_plugged",
-                            risk: "high",
-                            points: -10
-                        },
-                        {
-                            text: "USB-Stick liegen lassen und IT-Security informieren",
-                            consequence: "security_called",
+                            text: "USB-Stick ignorieren und an der IT-Abteilung vorbei informieren",
+                            consequence: "it_informed",
                             risk: "low", 
                             points: 15
                         },
@@ -43,472 +35,103 @@ const interactiveQuests = {
                             points: 5
                         }
                     ]
-                },
-                
-                usb_plugged: {
-                    situation: "💥 Sie haben den USB-Stick angeschlossen! Sofort öffnet sich ein Fenster: 'Ransomware wird installiert... 3... 2... 1...' Ihr Bildschirm wird schwarz, dann erscheint: 'Alle Ihre Dateien wurden verschlüsselt!'",
-                    isConsequence: true,
-                    immediateEffects: [
-                        "Ihr Computer ist kompromittiert",
-                        "Malware breitet sich im Netzwerk aus", 
-                        "IT-Security Alarm wird ausgelöst",
-                        "Der CEO ruft Sie persönlich an..."
-                    ],
-                    choices: [
-                        {
-                            text: "Computer sofort vom Netzwerk trennen",
-                            consequence: "damage_control",
-                            risk: "high",
-                            points: 5
-                        },
-                        {
-                            text: "Versuchen die Ransomware zu stoppen",
-                            consequence: "panic_mode",
-                            risk: "extreme",
-                            points: -5
-                        },
-                        {
-                            text: "IT-Helpdesk anrufen und alles gestehen",
-                            consequence: "confession",
-                            risk: "high", 
-                            points: 8
-                        }
-                    ]
-                },
-
-                security_called: {
-                    situation: "👨‍💼 Sie rufen das IT-Security Team an. Hans Schmidt antwortet: 'Gut gemacht! Das ist bereits der 3. USB-Stick diese Woche. Wir vermuten einen gezielten Angriff.' Er kommt sofort mit einem Forensik-Kit.",
-                    isConsequence: true,
-                    immediateEffects: [
-                        "IT-Security ist sehr zufrieden mit Ihnen",
-                        "Der USB-Stick wird sicher analysiert",
-                        "Sie werden für Ihre Vorsicht gelobt",
-                        "Andere Mitarbeiter werden gewarnt"
-                    ],
-                    choices: [
-                        {
-                            text: "Fragen, wie man solche Angriffe erkennt",
-                            consequence: "security_training",
-                            risk: "none",
-                            points: 10
-                        },
-                        {
-                            text: "Anbieten, bei der Untersuchung zu helfen",
-                            consequence: "investigation_help",
-                            risk: "low",
-                            points: 12
-                        },
-                        {
-                            text: "Einfach zur Arbeit gehen, ist ja erledigt",
-                            consequence: "work_continues",
-                            risk: "none",
-                            points: 5
-                        }
-                    ]
-                },
-
-                careful_analysis: {
-                    situation: "🔬 Sie nehmen den USB-Stick mit ins Büro und gehen zum IT-Kollegen Max: 'Kannst du das mal in der Sandbox analysieren?' Max startet eine isolierte virtuelle Maschine...",
-                    isConsequence: true,
-                    immediateEffects: [
-                        "USB-Stick wird sicher in Sandbox getestet",
-                        "Max findet tatsächlich Malware darauf",
-                        "Sie haben richtig gehandelt",
-                        "IT-Security wird informiert"
-                    ],
-                    choices: [
-                        {
-                            text: "Details über die Malware erfahren wollen",
-                            consequence: "malware_analysis",
-                            risk: "none",
-                            points: 8
-                        },
-                        {
-                            text: "Sofort alle Kollegen warnen",
-                            consequence: "warning_broadcast",
-                            risk: "low",
-                            points: 12
-                        },
-                        {
-                            text: "Fragen, wie man Forensik-Tools benutzt",
-                            consequence: "forensic_learning",
-                            risk: "none",
-                            points: 10
-                        }
-                    ]
-                },
-
-                damage_control: {
-                    situation: "💻 Sie trennen den Computer vom Netzwerk, aber es ist zu spät. Das IT-Security Team stürmt herein: 'Der Angriff hat sich bereits auf 12 Computer ausgebreitet!' Die Geschäftsführung ist alarmiert.",
-                    isConsequence: true,
-                    immediateEffects: [
-                        "Netzwerk ist teilweise kompromittiert",
-                        "Incident Response Team wird aktiviert",
-                        "Sie müssen sich verantworten",
-                        "Große Kosten für die Firma"
-                    ],
-                    choices: [
-                        {
-                            text: "Vollständig kooperieren und alle Details preisgeben",
-                            consequence: "full_cooperation",
-                            risk: "medium",
-                            points: 8
-                        },
-                        {
-                            text: "Anbieten, bei der Schadensbegrenzung zu helfen",
-                            consequence: "help_cleanup",
-                            risk: "medium",
-                            points: 10
-                        }
-                    ]
-                },
-
-                security_training: {
-                    situation: "🎓 Hans erklärt Ihnen: 'Das nennt man USB-Drop-Attack. Hacker lassen absichtlich infizierte USB-Sticks rum, weil sie wissen, dass Menschen neugierig sind.' Er zeigt Ihnen echte Beispiele.",
-                    isConclusion: true,
-                    finalOutcome: "success",
-                    score: 25,
-                    learnings: [
-                        "USB-Drop-Attacks sind eine reale Bedrohung",
-                        "Immer IT-Security bei verdächtigen Funden informieren",
-                        "Neugier kann teuer werden",
-                        "Security Awareness ist der beste Schutz"
-                    ]
-                },
-
-                investigation_help: {
-                    situation: "🕵️ Sie helfen bei der Forensik. Der USB-Stick enthält tatsächlich eine neue Ransomware-Variante! Ihr Fund hilft, einen größeren Angriff zu verhindern. Die Geschäftsführung bedankt sich persönlich.",
-                    isConclusion: true,
-                    finalOutcome: "hero",
-                    score: 35,
-                    learnings: [
-                        "Aufmerksamkeit kann Unternehmen retten",
-                        "Zusammenarbeit mit IT-Security ist wichtig",
-                        "Forensische Analyse deckt Angriffsmuster auf",
-                        "Prävention ist besser als Reaktion"
-                    ]
-                },
-
-                full_cooperation: {
-                    situation: "📋 Durch Ihre ehrliche Zusammenarbeit kann das Incident Response Team den Schaden begrenzen. Sie müssen ein umfangreiches Security Training absolvieren, behalten aber Ihren Job.",
-                    isConclusion: true,
-                    finalOutcome: "learning",
-                    score: 5,
-                    learnings: [
-                        "Ehrlichkeit nach Fehlern ist wichtig",
-                        "Incident Response braucht alle Informationen",
-                        "Ein Fehler kann teuer werden",
-                        "Security Training ist Pflicht"
-                    ]
-                }
-            }
-        }
-    ],
-
-    medium: [
-        {
-            id: "social_engineering",
-            title: "📞 Der falsche CEO-Anruf",
-            difficulty: "Mittel", 
-            description: "Ein Anrufer gibt sich als CEO aus und fordert eine Notfall-Überweisung",
-            startingScenario: {
-                title: "Freitag, 16:45 Uhr",
-                text: "Das Telefon klingelt. Eine autoritative Stimme: 'Hier ist Herr Müller, Ihr CEO. Ich bin auf einer wichtigen Konferenz in Dubai und brauche sofort eine Überweisung von 50.000€ für einen kritischen Deal. Die Buchhaltung ist schon weg, Sie müssen das machen!'",
-                image: "📱",
-                setting: "Sie sind allein im Büro, alle anderen sind bereits im Wochenende. Der Anrufer klingt gestresst und autoritär."
-            },
-            questPaths: {
-                start: {
-                    situation: "Der Anrufer drängt auf sofortige Überweisung. Wie reagieren Sie?",
-                    choices: [
-                        {
-                            text: "Sofort die Überweisung durchführen - der CEO wartet!",
-                            consequence: "immediate_transfer",
-                            risk: "extreme",
-                            points: -20
-                        },
-                        {
-                            text: "Nach der Handynummer des CEOs fragen zur Rückbestätigung",
-                            consequence: "callback_request",
-                            risk: "low",
-                            points: 15
-                        },
-                        {
-                            text: "Erklären, dass solche Überweisungen zwei Unterschriften brauchen",
-                            consequence: "policy_reference",
-                            risk: "low",
-                            points: 12
-                        },
-                        {
-                            text: "Misstrauisch werden und nach Details der Konferenz fragen",
-                            consequence: "detailed_questions",
-                            risk: "medium",
-                            points: 18
-                        }
-                    ]
-                }
-                // Weitere Pfade würden hier folgen...
-            }
-        }
-    ],
-
-    hard: [
-        {
-            id: "insider_threat",
-            title: "🕵️ Der verdächtige Kollege", 
-            difficulty: "Schwer",
-            description: "Ein Kollege verhält sich merkwürdig und Sie vermuten Datendiebstahl",
-            startingScenario: {
-                title: "Donnerstagabend, 19:30 Uhr",
-                text: "Sie arbeiten länger und bemerken, dass Ihr Kollege Michael, der normalerweise pünktlich geht, noch da ist. Er kopiert Dateien auf einen externen USB-Stick und schaut nervös umher. Morgen ist sein letzter Arbeitstag - er wechselt zur Konkurrenz.",
-                image: "👤",
-                setting: "Nur Sie beide sind noch im Büro. Die Sicherheitskameras laufen, aber Michael hat Sie noch nicht bemerkt."
-            }
-        }
-    ]
-};
-    easy: [
-        {
-            id: "phishing_email",
-            title: "🎣 Verdächtige E-Mail",
-            difficulty: "Einfach",
-            description: "Sie erhalten eine E-Mail mit verdächtigem Anhang",
-            scenario: {
-                intro: "Es ist Montagmorgen, 9:15 Uhr. Sie kommen ins Büro und öffnen Ihren E-Mail-Client. In Ihrem Posteingang finden Sie eine E-Mail mit dem Betreff: 'URGENT: Rechnung überfällig - Sofortige Zahlung erforderlich'. Der Absender scheint Ihr Energieversorger zu sein.",
-                details: [
-                    "Die E-Mail enthält einen ZIP-Anhang namens 'Rechnung_Januar_2025.zip'",
-                    "Der Absender ist 'noreply@energie-stadtwerke.com' (Ihr echter Versorger ist 'stadtwerke-energie.de')",
-                    "Die E-Mail droht mit Stromabschaltung in 24 Stunden",
-                    "Der Text enthält mehrere Rechtschreibfehler",
-                    "Sie erwarten eigentlich keine Rechnung, da Sie per Lastschrift zahlen"
-                ],
-                image: "📧",
-                currentStep: "initial"
-            },
-            steps: {
-                initial: {
-                    question: "Was ist Ihr erster Verdacht bei dieser E-Mail?",
-                    options: [
-                        {
-                            text: "Das sieht nach Phishing aus - ich bin vorsichtig",
-                            score: 10,
-                            feedback: "✅ Richtig! Ihre Vorsicht ist berechtigt.",
-                            next: "analysis"
-                        },
-                        {
-                            text: "Könnte echt sein - ich sollte den Anhang öffnen",
-                            score: -5,
-                            feedback: "⚠️ Vorsicht! Das sind klassische Phishing-Anzeichen.",
-                            next: "dangerous_path"
-                        },
-                        {
-                            text: "Ich ignoriere die E-Mail einfach",
-                            score: 5,
-                            feedback: "🔶 Besser als öffnen, aber eine Analyse wäre sinnvoll.",
-                            next: "analysis"
-                        }
-                    ]
-                },
-                analysis: {
-                    question: "Sie analysieren die E-Mail genauer. Welche Phishing-Indikatoren erkennen Sie?",
-                    options: [
-                        {
-                            text: "Falsche Domain, Rechtschreibfehler, unerwartete Rechnung",
-                            score: 15,
-                            feedback: "🎯 Perfekt! Sie haben alle wichtigen Indizien erkannt.",
-                            next: "response"
-                        },
-                        {
-                            text: "Nur die Rechtschreibfehler sind verdächtig",
-                            score: 5,
-                            feedback: "📚 Das ist ein Indiz, aber es gibt mehr zu entdecken.",
-                            next: "response"
-                        },
-                        {
-                            text: "Die Dringlichkeit macht mich stutzig",
-                            score: 8,
-                            feedback: "👍 Richtig! Urgency ist ein typisches Phishing-Merkmal.",
-                            next: "response"
-                        }
-                    ]
-                },
-                response: {
-                    question: "Wie reagieren Sie jetzt richtig?",
-                    options: [
-                        {
-                            text: "IT-Security Team informieren und E-Mail weiterleiten",
-                            score: 20,
-                            feedback: "🏆 Excellent! Das ist die professionellste Reaktion.",
-                            next: "conclusion"
-                        },
-                        {
-                            text: "E-Mail löschen und Kollegen warnen",
-                            score: 15,
-                            feedback: "✅ Gut! Warnung der Kollegen ist wichtig.",
-                            next: "conclusion"
-                        },
-                        {
-                            text: "Beim echten Energieversorger nachfragen",
-                            score: 12,
-                            feedback: "👌 Sinnvoll, aber IT-Security sollte auch informiert werden.",
-                            next: "conclusion"
-                        }
-                    ]
-                },
-                dangerous_path: {
-                    question: "Sie haben den Anhang geöffnet und Ihr Antivirus schlägt Alarm! Was jetzt?",
-                    options: [
-                        {
-                            text: "Computer sofort vom Netzwerk trennen",
-                            score: 5,
-                            feedback: "🚨 Richtig! Damage Control ist jetzt wichtig.",
-                            next: "incident_response"
-                        },
-                        {
-                            text: "Antivirus-Scan durchführen lassen",
-                            score: 2,
-                            feedback: "⚠️ Besser als nichts, aber Isolation wäre besser.",
-                            next: "incident_response"
-                        },
-                        {
-                            text: "Weiterarbeiten und hoffen",
-                            score: -10,
-                            feedback: "❌ Gefährlich! Sie riskieren eine Ausbreitung.",
-                            next: "incident_response"
-                        }
-                    ]
-                },
-                incident_response: {
-                    question: "Der Incident ist eingetreten. Welche Schritte sind jetzt wichtig?",
-                    options: [
-                        {
-                            text: "IT-Team informieren, Computer isolieren, Logs sichern",
-                            score: 10,
-                            feedback: "✅ Richtige Incident Response Schritte!",
-                            next: "conclusion"
-                        },
-                        {
-                            text: "Passwörter ändern und Malware entfernen",
-                            score: 5,
-                            feedback: "📋 Wichtig, aber erst nach professioneller Analyse.",
-                            next: "conclusion"
-                        },
-                        {
-                            text: "Computer neu aufsetzen",
-                            score: 3,
-                            feedback: "🔄 Sicher, aber Forensik geht dabei verloren.",
-                            next: "conclusion"
-                        }
-                    ]
-                },
-                conclusion: {
-                    question: "Reflexion: Was haben Sie aus diesem Fall gelernt?",
-                    isConclusion: true
                 }
             },
-            learningObjectives: [
-                "Phishing-E-Mails erkennen",
-                "Verdächtige Anhänge nicht öffnen", 
-                "Incident Response Prozesse",
-                "Kommunikation bei Sicherheitsvorfällen"
-            ],
             finalScore: function(totalScore) {
-                if (totalScore >= 40) return { grade: "A", text: "🏆 Exzellent! Sie sind ein Phishing-Profi!" };
-                if (totalScore >= 25) return { grade: "B", text: "👍 Gut! Noch etwas Übung und Sie sind Experte." };
-                if (totalScore >= 15) return { grade: "C", text: "📚 Solide Grundlagen, aber Verbesserung möglich." };
-                return { grade: "D", text: "⚠️ Mehr Security Awareness Training empfohlen." };
+                if (totalScore >= 15) return { grade: "A", text: "🏆 Perfekt! Sicherheit geht vor!" };
+                if (totalScore >= 10) return { grade: "B", text: "👍 Gut gemacht!" };
+                if (totalScore >= 5) return { grade: "C", text: "📚 Verbesserung möglich." };
+                return { grade: "D", text: "⚠️ Mehr Training nötig." };
             }
         }
     ],
-
     medium: [
         {
             id: "ransomware_attack",
             title: "🔒 Ransomware-Angriff",
             difficulty: "Mittel",
             description: "Ein Ransomware-Angriff legt Ihr Unternehmensnetzwerk lahm",
-            scenario: {
-                intro: "Dienstag, 14:30 Uhr. Plötzlich erscheinen auf allen Bildschirmen rote Warnmeldungen: 'Your files have been encrypted. Pay 50 Bitcoin to decrypt.' Das gesamte Netzwerk ist betroffen. Als IT-Security Verantwortlicher müssen Sie schnell handeln.",
-                details: [
-                    "Alle Fileserver sind verschlüsselt",
-                    "E-Mail-System ist ausgefallen", 
-                    "Produktionssysteme stehen still",
-                    "Backup-System zeigt letzte Sicherung vor 3 Tagen",
-                    "Geschäftsführung fragt nach sofortigen Lösungen",
-                    "Kunden beschweren sich über Ausfälle"
-                ],
+            startingScenario: {
+                title: "Dienstag - 14:45 Uhr",
+                text: "Plötzlich werden alle Computer im Büro gesperrt. Ein rotes Fenster erscheint: 'Ihre Dateien wurden verschlüsselt. Zahlen Sie 5000€ in Bitcoin...'",
                 image: "🚨",
-                currentStep: "initial"
+                setting: "Chaos im Büro. Kollegen schreien, Telefone klingeln, der Server ist nicht erreichbar."
             },
-            steps: {
-                initial: {
-                    question: "Was ist Ihre allererste Maßnahme in den ersten 5 Minuten?",
-                    options: [
+            questPaths: {
+                start: {
+                    situation: "Sofortige Reaktion - was ist am wichtigsten?",
+                    choices: [
                         {
-                            text: "Alle Systeme vom Netzwerk trennen",
-                            score: 15,
-                            feedback: "🎯 Richtig! Eindämmung hat höchste Priorität.",
-                            next: "assessment"
+                            text: "Alle Systeme sofort vom Netzwerk trennen",
+                            consequence: "isolation_success",
+                            risk: "low",
+                            points: 20
                         },
                         {
-                            text: "Backup sofort wiederherstellen",
-                            score: 5,
-                            feedback: "⚠️ Zu früh! Erst Eindämmung, dann Recovery.",
-                            next: "containment"
+                            text: "IT-Leiter und Geschäftsführung informieren",
+                            consequence: "escalation_good",
+                            risk: "medium",
+                            points: 15
                         },
                         {
-                            text: "Polizei und Versicherung anrufen",
-                            score: 8,
-                            feedback: "📞 Wichtig, aber erst nach Eindämmung.",
-                            next: "assessment"
-                        }
-                    ]
-                },
-                assessment: {
-                    question: "Sie haben die Systeme isoliert. Wie bewerten Sie jetzt das Ausmaß?",
-                    options: [
-                        {
-                            text: "Forensische Analyse starten, betroffene Systeme dokumentieren",
-                            score: 20,
-                            feedback: "🔍 Professionell! Dokumentation ist entscheidend.",
-                            next: "decision"
-                        },
-                        {
-                            text: "Schnell prüfen welche Backups verfügbar sind",
-                            score: 12,
-                            feedback: "💾 Pragmatisch, aber Forensik sollte parallel laufen.",
-                            next: "decision"
-                        },
-                        {
-                            text: "Mitarbeiter über Situation informieren",
-                            score: 10,
-                            feedback: "📢 Kommunikation ist wichtig, aber zuerst Analyse.",
-                            next: "decision"
+                            text: "Versuchen, die Verschlüsselung zu knacken",
+                            consequence: "analysis_attempt",
+                            risk: "high",
+                            points: 5
                         }
                     ]
                 }
+            },
+            finalScore: function(totalScore) {
+                if (totalScore >= 20) return { grade: "A", text: "🏆 Krisenmanagement perfekt!" };
+                if (totalScore >= 15) return { grade: "B", text: "👍 Gute Reaktion unter Stress!" };
+                if (totalScore >= 10) return { grade: "C", text: "📚 Solide Grundlagen." };
+                return { grade: "D", text: "⚠️ Incident Response Training empfohlen." };
             }
         }
     ],
-
     hard: [
         {
             id: "apt_attack",
             title: "🎭 Advanced Persistent Threat",
             difficulty: "Schwer",
             description: "Ein komplexer, mehrmonatiger Cyberangriff wird entdeckt",
-            scenario: {
-                intro: "Ihr SIEM-System zeigt anomale Aktivitäten. Nach detaillierter Analyse wird klar: Ihr Unternehmen ist seit Monaten Ziel eines Advanced Persistent Threat (APT). Die Angreifer haben bereits mehrere Systeme kompromittiert und Daten exfiltriert.",
-                details: [
-                    "Lateral Movement zwischen mehreren Systemen erkannt",
-                    "Unbekannte Zertifikate im Active Directory",
-                    "Verdächtige DNS-Anfragen an Command & Control Server",
-                    "Exfiltration sensibler Kundendaten vermutet",
-                    "Sleeping Agents in kritischen Systemen möglich",
-                    "Angriff nutzt Zero-Day-Exploit"
-                ],
+            startingScenario: {
+                title: "Mittwoch - 09:15 Uhr",
+                text: "Die SIEM-Systeme zeigen verdächtige Aktivitäten. Unbekannte Datenübertragungen nach China, modifizierte Systemdateien, und Accounts mit erhöhten Rechten, die niemand erstellt hat.",
                 image: "🕵️",
-                currentStep: "initial"
+                setting: "Security Operations Center. Mehrere Monitore zeigen rote Alarme. Das Forensik-Team ist bereits alarmiert."
+            },
+            questPaths: {
+                start: {
+                    situation: "Komplexe Bedrohung entdeckt - strategisches Vorgehen?",
+                    choices: [
+                        {
+                            text: "Sofortige Vollanalyse aller kompromittierten Systeme",
+                            consequence: "forensic_analysis",
+                            risk: "medium",
+                            points: 25
+                        },
+                        {
+                            text: "Externe Spezialisten hinzuziehen",
+                            consequence: "expert_consultation",
+                            risk: "low",
+                            points: 30
+                        },
+                        {
+                            text: "Alle Systeme sofort herunterfahren",
+                            consequence: "emergency_shutdown",
+                            risk: "high",
+                            points: 10
+                        }
+                    ]
+                }
+            },
+            finalScore: function(totalScore) {
+                if (totalScore >= 25) return { grade: "A", text: "🏆 Elite Cyber Security Expert!" };
+                if (totalScore >= 20) return { grade: "B", text: "👍 Professionelle APT-Abwehr!" };
+                if (totalScore >= 15) return { grade: "C", text: "📚 Gute Grundlagen für komplexe Threats." };
+                return { grade: "D", text: "⚠️ Advanced Threat Training erforderlich." };
             }
         }
     ]
@@ -532,116 +155,44 @@ class QuestEngine {
         this.decisions = [];
         this.startTime = new Date();
         this.riskLevel = 'low';
-        this.renderQuestStart();
+        this.renderQuest();
     }
 
-    renderQuestStart() {
-        const content = document.getElementById('case-content');
-        const quest = this.currentQuest;
-        
-        content.innerHTML = `
-            <div class="quest-container">
-                <div class="quest-header">
-                    <h1>${quest.title}</h1>
-                    <div class="quest-meta">
-                        <span class="difficulty ${quest.difficulty.toLowerCase()}">${quest.difficulty}</span>
-                        <span class="score">Score: ${this.score}</span>
-                    </div>
-                </div>
+    renderQuest() {
+        if (!this.currentQuest) return;
 
-                <div class="scenario-intro">
-                    <div class="scenario-image">${quest.startingScenario.image}</div>
-                    <h2>${quest.startingScenario.title}</h2>
-                    <div class="scenario-text">${quest.startingScenario.text}</div>
-                    <div class="setting-context">
-                        <strong>Situation:</strong> ${quest.startingScenario.setting}
-                    </div>
-                </div>
+        const questContainer = document.getElementById('quest-content') || document.getElementById('case-content');
+        const currentStep = this.currentQuest.questPaths[this.currentPath];
 
-                <div class="quest-actions">
-                    <button onclick="questEngine.beginQuest()" class="btn btn-primary btn-large">
-                        🎮 Abenteuer beginnen
-                    </button>
-                    <button onclick="showCaseSelection()" class="btn btn-secondary">
-                        🔙 Zurück zur Auswahl
-                    </button>
+        questContainer.innerHTML = `
+            <div class="quest-header">
+                <h2>${this.currentQuest.title}</h2>
+                <div class="quest-info">
+                    <span class="difficulty ${this.currentQuest.difficulty.toLowerCase()}">${this.currentQuest.difficulty}</span>
+                    <span class="score">Score: ${this.score}</span>
+                    <span class="risk risk-${this.riskLevel}">Risk: ${this.riskLevel.toUpperCase()}</span>
                 </div>
             </div>
-        `;
-    }
 
-    beginQuest() {
-        this.renderQuestStep();
-    }
+            <div class="scenario-box">
+                <div class="scenario-title">${this.currentQuest.startingScenario.title}</div>
+                <div class="scenario-text">${this.currentQuest.startingScenario.text}</div>
+                <div class="scenario-image">${this.currentQuest.startingScenario.image}</div>
+            </div>
 
-    renderQuestStep() {
-        const currentStep = this.currentQuest.questPaths[this.currentPath];
-        
-        if (currentStep.isConclusion) {
-            this.renderConclusion(currentStep);
-            return;
-        }
-
-        const content = document.getElementById('case-content');
-        
-        content.innerHTML = `
             <div class="quest-step">
-                <div class="step-header">
-                    <h2>${this.currentQuest.title}</h2>
-                    <div class="step-info">
-                        <span class="score">Score: ${this.score}</span>
-                        <span class="risk risk-${this.riskLevel}">Risiko: ${this.getRiskText()}</span>
-                    </div>
+                <h3>${currentStep.situation}</h3>
+                <div class="choices">
+                    ${currentStep.choices.map((choice, index) => `
+                        <button class="choice-btn risk-${choice.risk}" onclick="questEngine.makeChoice(${index})">
+                            ${choice.text}
+                            <span class="choice-info">
+                                <span class="points">+${choice.points} Punkte</span>
+                                <span class="risk">Risk: ${choice.risk}</span>
+                            </span>
+                        </button>
+                    `).join('')}
                 </div>
-
-                ${currentStep.isConsequence ? `
-                    <div class="consequence-alert">
-                        <h3>⚡ Konsequenz Ihrer Entscheidung:</h3>
-                        <div class="consequence-text">${currentStep.situation}</div>
-                        
-                        ${currentStep.immediateEffects ? `
-                            <div class="immediate-effects">
-                                <h4>Sofortige Auswirkungen:</h4>
-                                <ul>
-                                    ${currentStep.immediateEffects.map(effect => `<li>${effect}</li>`).join('')}
-                                </ul>
-                            </div>
-                        ` : ''}
-                    </div>
-                ` : `
-                    <div class="situation-description">
-                        <p>${currentStep.situation}</p>
-                    </div>
-                `}
-
-                <div class="choices-container">
-                    <h3>Was tun Sie als Nächstes?</h3>
-                    <div class="choices">
-                        ${currentStep.choices.map((choice, index) => `
-                            <div class="choice-option" onclick="questEngine.makeChoice(${index})">
-                                <div class="choice-text">${choice.text}</div>
-                                <div class="choice-risk risk-${choice.risk}">
-                                    ${this.getRiskIcon(choice.risk)} ${choice.risk}
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-
-                ${this.decisions.length > 0 ? `
-                    <div class="decision-trail">
-                        <h4>🛤️ Ihr bisheriger Weg:</h4>
-                        ${this.decisions.map((decision, index) => `
-                            <div class="trail-item">
-                                <span class="step-num">${index + 1}.</span>
-                                <span class="decision-text">${decision.text}</span>
-                                <span class="points ${decision.points >= 0 ? 'positive' : 'negative'}">
-                                    ${decision.points >= 0 ? '+' : ''}${decision.points}
-                                </span>
-                            </div>
-                        `).join('')}
-                    </div>
-                ` : ''}
             </div>
         `;
     }
@@ -650,171 +201,121 @@ class QuestEngine {
         const currentStep = this.currentQuest.questPaths[this.currentPath];
         const choice = currentStep.choices[choiceIndex];
         
-        // Entscheidung speichern
+        this.score += choice.points;
+        this.updateRiskLevel(choice.risk);
+        
         this.decisions.push({
-            text: choice.text,
+            step: this.currentPath,
+            choice: choice.text,
             points: choice.points,
             risk: choice.risk,
-            consequence: choice.consequence
+            timestamp: new Date()
         });
 
-        // Score und Risiko aktualisieren
-        this.score += choice.points;
-        this.riskLevel = choice.risk;
-
-        // Feedback zeigen, dann weiter
-        this.showChoiceFeedback(choice, () => {
-            this.currentPath = choice.consequence;
-            this.renderQuestStep();
-        });
+        // Show result and conclude
+        this.showQuestResult();
     }
 
-    showChoiceFeedback(choice, callback) {
-        const overlay = document.createElement('div');
-        overlay.className = 'feedback-overlay';
+    updateRiskLevel(newRisk) {
+        const riskLevels = { 'low': 1, 'medium': 2, 'high': 3 };
+        const current = riskLevels[this.riskLevel] || 1;
+        const incoming = riskLevels[newRisk] || 1;
         
-        const riskColor = {
-            'none': '#27ae60',
-            'low': '#f39c12', 
-            'medium': '#e67e22',
-            'high': '#e74c3c',
-            'extreme': '#8e44ad'
-        };
-
-        overlay.innerHTML = `
-            <div class="choice-feedback">
-                <div class="feedback-header" style="background: ${riskColor[choice.risk]}">
-                    <h3>Ihre Entscheidung</h3>
-                </div>
-                <div class="feedback-content">
-                    <div class="choice-recap">"${choice.text}"</div>
-                    <div class="points-awarded">
-                        <span class="points ${choice.points >= 0 ? 'positive' : 'negative'}">
-                            ${choice.points >= 0 ? '+' : ''}${choice.points} Punkte
-                        </span>
-                    </div>
-                    <div class="risk-level">
-                        Risiko: <span class="risk-${choice.risk}">${this.getRiskIcon(choice.risk)} ${choice.risk}</span>
-                    </div>
-                </div>
-                <button onclick="this.parentElement.remove(); (${callback})()" class="btn btn-primary">
-                    Weiter →
-                </button>
-            </div>
-        `;
-        
-        document.body.appendChild(overlay);
-        
-        // Automatisch nach 3 Sekunden weiter (optional)
-        setTimeout(() => {
-            if (overlay.parentElement) {
-                overlay.remove();
-                callback();
-            }
-        }, 3000);
+        if (incoming > current) {
+            this.riskLevel = newRisk;
+        }
     }
 
-    renderConclusion(finalStep) {
-        const duration = Math.round((new Date() - this.startTime) / 1000 / 60);
+    showQuestResult() {
+        const duration = Math.round((new Date() - this.startTime) / 1000);
+        const finalGrade = this.currentQuest.finalScore(this.score);
         
-        const content = document.getElementById('case-content');
-        content.innerHTML = `
+        const questContainer = document.getElementById('quest-content') || document.getElementById('case-content');
+        
+        questContainer.innerHTML = `
             <div class="quest-conclusion">
-                <div class="conclusion-header">
-                    <h1>🎯 Quest abgeschlossen!</h1>
-                    <div class="outcome outcome-${finalStep.finalOutcome}">
-                        ${this.getOutcomeText(finalStep.finalOutcome)}
+                <h2>🎯 Quest abgeschlossen!</h2>
+                
+                <div class="final-results">
+                    <div class="grade-display grade-${finalGrade.grade.toLowerCase()}">
+                        <div class="grade-letter">${finalGrade.grade}</div>
+                        <div class="grade-text">${finalGrade.text}</div>
                     </div>
-                </div>
-
-                <div class="final-story">
-                    <h3>📖 Das Ende Ihrer Geschichte:</h3>
-                    <div class="ending-text">${finalStep.situation}</div>
-                </div>
-
-                <div class="quest-results">
-                    <div class="score-summary">
-                        <div class="final-score">${this.score}</div>
-                        <div class="score-label">Gesamtpunkte</div>
-                        <div class="time-taken">${duration} Minuten</div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat">
+                            <span class="stat-label">Punkte</span>
+                            <span class="stat-value">${this.score}</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Dauer</span>
+                            <span class="stat-value">${duration}s</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Risiko</span>
+                            <span class="stat-value risk-${this.riskLevel}">${this.riskLevel.toUpperCase()}</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Entscheidungen</span>
+                            <span class="stat-value">${this.decisions.length}</span>
+                        </div>
                     </div>
 
-                    <div class="learnings-gained">
-                        <h3>🧠 Was Sie gelernt haben:</h3>
-                        <ul>
-                            ${finalStep.learnings.map(learning => `<li>${learning}</li>`).join('')}
-                        </ul>
-                    </div>
-
-                    <div class="decision-path">
-                        <h3>🛤️ Ihr Entscheidungsweg:</h3>
-                        ${this.decisions.map((decision, index) => `
-                            <div class="path-step">
-                                <div class="step-number">${index + 1}</div>
-                                <div class="step-details">
-                                    <div class="step-text">${decision.text}</div>
-                                    <div class="step-meta">
-                                        <span class="risk-badge risk-${decision.risk}">${decision.risk}</span>
-                                        <span class="points-badge ${decision.points >= 0 ? 'positive' : 'negative'}">
-                                            ${decision.points >= 0 ? '+' : ''}${decision.points}
-                                        </span>
-                                    </div>
-                                </div>
+                    <div class="decision-summary">
+                        <h3>📋 Ihre Entscheidungen:</h3>
+                        ${this.decisions.map(decision => `
+                            <div class="decision-item">
+                                <span class="decision-text">${decision.choice}</span>
+                                <span class="decision-points">+${decision.points} Punkte</span>
                             </div>
                         `).join('')}
                     </div>
-                </div>
 
-                <div class="conclusion-actions">
-                    <button onclick="questEngine.startQuest('${this.currentQuest.difficulty.toLowerCase()}', '${this.currentQuest.id}')" class="btn btn-secondary">
-                        🔄 Nochmal spielen
-                    </button>
-                    <button onclick="showCaseSelection()" class="btn btn-primary">
-                        🎮 Neue Quest wählen
-                    </button>
-                    <button onclick="showAnalyticsDashboard()" class="btn btn-secondary">
-                        📊 Analytics Dashboard
-                    </button>
+                    <div class="quest-actions">
+                        <button onclick="location.reload()" class="btn-primary">
+                            🔄 Neues Quest starten
+                        </button>
+                        <button onclick="window.history.back()" class="btn-secondary">
+                            ← Zurück zur Auswahl
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
     }
 
-    getRiskIcon(risk) {
+    generateRiskIcon(risk) {
         const icons = {
-            'none': '✅',
-            'low': '🟡',
-            'medium': '🟠', 
-            'high': '🔴',
-            'extreme': '💀'
+            'low': '🟢',
+            'medium': '🟡', 
+            'high': '🔴'
         };
-        return icons[risk] || '❓';
+        return icons[risk] || '⚪';
     }
 
-    getRiskText() {
+    generateRiskText(risk) {
         const texts = {
-            'none': 'Kein Risiko',
-            'low': 'Niedrig',
-            'medium': 'Mittel',
-            'high': 'Hoch', 
-            'extreme': 'Extrem'
+            'low': 'Sicher',
+            'medium': 'Bedacht',
+            'high': 'Riskant'
         };
-        return texts[this.riskLevel] || 'Unbekannt';
+        return texts[risk] || 'Unbekannt';
     }
 
-    getOutcomeText(outcome) {
+    generateOutcomeIcon(outcome) {
         const outcomes = {
-            'success': '🎉 Perfekt gehandelt!',
-            'hero': '🦸‍♂️ Sie sind ein Cybersecurity-Held!',
-            'learning': '📚 Aus Fehlern wird man klug',
+            'success': '🏆 Hervorragend gelöst!',
+            'good': '👍 Gute Entscheidung!',
+            'okay': '📚 Solide Lösung.',
+            'risky': '⚠️ Das war riskant...',
             'disaster': '💥 Das war eine teure Lektion...'
         };
         return outcomes[outcome] || '🤔 Interessanter Ausgang...';
     }
 }
 
-// Global Quest Engine
-const questEngine = new QuestEngine();
+// Interactive Case Engine
+class InteractiveCaseEngine {
     constructor() {
         this.currentCase = null;
         this.currentStep = null;
@@ -824,8 +325,10 @@ const questEngine = new QuestEngine();
     }
 
     startCase(difficulty, caseId) {
-        this.currentCase = interactiveCaseStudies[difficulty].find(c => c.id === caseId);
-        this.currentStep = this.currentCase.steps.initial;
+        this.currentCase = interactiveQuests[difficulty].find(c => c.id === caseId);
+        if (this.currentCase && this.currentCase.questPaths) {
+            this.currentStep = this.currentCase.questPaths.start;
+        }
         this.score = 0;
         this.decisions = [];
         this.startTime = new Date();
@@ -833,81 +336,51 @@ const questEngine = new QuestEngine();
     }
 
     makeDecision(optionIndex) {
-        const option = this.currentStep.options[optionIndex];
-        this.score += option.score;
+        const option = this.currentStep.choices[optionIndex];
+        this.score += option.points;
         
         this.decisions.push({
-            step: this.currentStep.question,
+            step: this.currentStep.situation,
             choice: option.text,
-            score: option.score,
+            score: option.points,
             feedback: option.feedback,
             timestamp: new Date()
         });
 
-        // Show feedback
-        this.showFeedback(option.feedback, () => {
-            if (option.next && this.currentCase.steps[option.next]) {
-                this.currentStep = this.currentCase.steps[option.next];
-                this.renderCase();
-            } else {
-                this.showConclusion();
-            }
-        });
+        // Show feedback and conclude
+        this.showConclusion();
     }
 
     renderCase() {
-        const content = document.getElementById('case-content');
-        
-        if (this.currentStep.isConclusion) {
-            this.showConclusion();
-            return;
-        }
+        if (!this.currentCase) return;
 
-        content.innerHTML = `
-            <div class="case-scenario">
-                <div class="scenario-header">
-                    <h2>${this.currentCase.title}</h2>
-                    <div class="case-meta">
-                        <span class="difficulty ${this.currentCase.difficulty.toLowerCase()}">${this.currentCase.difficulty}</span>
-                        <span class="score">Score: ${this.score}</span>
-                    </div>
+        const caseContainer = document.getElementById('case-content');
+        if (!caseContainer) return;
+
+        caseContainer.innerHTML = `
+            <div class="case-header">
+                <h2>${this.currentCase.title}</h2>
+                <div class="case-info">
+                    <span class="difficulty ${this.currentCase.difficulty.toLowerCase()}">${this.currentCase.difficulty}</span>
+                    <span class="score">Score: ${this.score}</span>
                 </div>
+            </div>
 
-                <div class="scenario-story">
-                    <div class="story-icon">${this.currentCase.scenario.image}</div>
-                    <p>${this.currentCase.scenario.intro}</p>
-                    
-                    <div class="details">
-                        <h4>Aktuelle Situation:</h4>
-                        <ul>
-                            ${this.currentCase.scenario.details.map(detail => `<li>${detail}</li>`).join('')}
-                        </ul>
-                    </div>
-                </div>
+            <div class="scenario-section">
+                <h3>${this.currentCase.startingScenario.title}</h3>
+                <p>${this.currentCase.startingScenario.text}</p>
+                <div class="scenario-image">${this.currentCase.startingScenario.image}</div>
+            </div>
 
-                <div class="decision-point">
-                    <h3>${this.currentStep.question}</h3>
-                    <div class="options">
-                        ${this.currentStep.options.map((option, index) => `
-                            <button class="option-btn" onclick="caseEngine.makeDecision(${index})">
-                                ${option.text}
-                            </button>
-                        `).join('')}
-                    </div>
-                </div>
-
-                <div class="progress">
-                    <div class="decisions-made">
-                        <h4>Bisherige Entscheidungen:</h4>
-                        ${this.decisions.map(decision => `
-                            <div class="decision-item">
-                                <strong>${decision.choice}</strong>
-                                <span class="score-indicator ${decision.score > 0 ? 'positive' : 'negative'}">
-                                    ${decision.score > 0 ? '+' : ''}${decision.score}
-                                </span>
-                            </div>
-                        `).join('')}
-                    </div>
+            <div class="decision-section">
+                <h3>${this.currentStep.situation}</h3>
+                <div class="options">
+                    ${this.currentStep.choices.map((choice, index) => `
+                        <button class="option-btn" onclick="caseEngine.makeDecision(${index})">
+                            ${choice.text}
+                            <span class="points">+${choice.points} Punkte</span>
+                        </button>
+                    `).join('')}
                 </div>
             </div>
         `;
@@ -938,51 +411,35 @@ const questEngine = new QuestEngine();
                 <div class="results">
                     <div class="final-score">
                         <div class="grade grade-${finalGrade.grade.toLowerCase()}">${finalGrade.grade}</div>
-                        <div class="score-text">${finalGrade.text}</div>
-                        <div class="score-details">
-                            Gesamtpunkte: ${this.score} | Zeit: ${duration} Min.
+                        <div class="grade-text">${finalGrade.text}</div>
+                    </div>
+                    
+                    <div class="summary-stats">
+                        <div class="stat">
+                            <label>Gesamtpunkte:</label>
+                            <span>${this.score}</span>
+                        </div>
+                        <div class="stat">
+                            <label>Bearbeitungszeit:</label>
+                            <span>${duration} Min</span>
+                        </div>
+                        <div class="stat">
+                            <label>Entscheidungen:</label>
+                            <span>${this.decisions.length}</span>
                         </div>
                     </div>
 
-                    <div class="learning-summary">
-                        <h3>🎓 Lernziele erreicht:</h3>
-                        <ul>
-                            ${this.currentCase.learningObjectives.map(obj => `<li>${obj}</li>`).join('')}
-                        </ul>
+                    <div class="restart-section">
+                        <button onclick="location.reload()" class="btn-restart">
+                            🔄 Neue Fallstudie starten
+                        </button>
                     </div>
-
-                    <div class="decision-recap">
-                        <h3>📋 Ihre Entscheidungen:</h3>
-                        ${this.decisions.map((decision, index) => `
-                            <div class="recap-item">
-                                <div class="step-number">${index + 1}</div>
-                                <div class="decision-details">
-                                    <strong>${decision.choice}</strong>
-                                    <div class="feedback">${decision.feedback}</div>
-                                </div>
-                                <div class="score-badge ${decision.score > 0 ? 'positive' : 'negative'}">
-                                    ${decision.score > 0 ? '+' : ''}${decision.score}
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-
-                <div class="conclusion-actions">
-                    <button onclick="showCaseSelection()" class="btn btn-primary">
-                        🔙 Zur Fallauswahl
-                    </button>
-                    <button onclick="restartCase()" class="btn btn-secondary">
-                        🔄 Nochmal versuchen
-                    </button>
-                    <button onclick="showAnalyticsDashboard()" class="btn btn-secondary">
-                        📊 Analytics Dashboard
-                    </button>
                 </div>
             </div>
         `;
     }
 }
 
-// Global instance
+// Global instances
+const questEngine = new QuestEngine();
 const caseEngine = new InteractiveCaseEngine();
