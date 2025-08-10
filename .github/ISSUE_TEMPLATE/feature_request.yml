@@ -1,0 +1,45 @@
+name: Feature Request
+description: Schlagen Sie ein neues Feature für das IT-Sicherheit Lernspiel vor
+title: "[FEATURE] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Vielen Dank für Ihren Verbesserungsvorschlag!
+
+  - type: dropdown
+    id: version
+    attributes:
+      label: Betroffene Version
+      description: Für welche Version ist das Feature?
+      options:
+        - Mobile App (Flutter)
+        - Web-Version (Browser)
+        - Beide Versionen
+    validations:
+      required: true
+
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Feature-Beschreibung
+      description: Beschreiben Sie das gewünschte Feature
+      placeholder: Was soll das Feature können?
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Warum ist dieses Feature nützlich?
+      placeholder: Welches Problem löst es?
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Zusätzliche Informationen
+      description: Mockups, Beispiele, alternative Lösungen, etc.

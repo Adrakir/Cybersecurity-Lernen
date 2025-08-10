@@ -1,0 +1,56 @@
+name: Bug Report
+description: Melden Sie einen Fehler im IT-Sicherheit Lernspiel
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Vielen Dank für das Melden eines Bugs! Bitte füllen Sie das Formular aus.
+
+  - type: dropdown
+    id: version
+    attributes:
+      label: Version
+      description: Welche Version verwenden Sie?
+      options:
+        - Mobile App (Flutter)
+        - Web-Version (Browser)
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Fehlerbeschreibung
+      description: Beschreiben Sie den Fehler ausführlich
+      placeholder: Was ist passiert?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Schritte zur Reproduktion
+      description: Wie kann der Fehler reproduziert werden?
+      placeholder: |
+        1. Gehe zu '...'
+        2. Klicke auf '...'
+        3. Scrolle nach unten zu '...'
+        4. Siehe Fehler
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Erwartetes Verhalten
+      description: Was sollte stattdessen passieren?
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Zusätzliche Informationen
+      description: Screenshots, Browser-Version, Geräteinformationen, etc.
