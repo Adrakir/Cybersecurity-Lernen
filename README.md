@@ -1,18 +1,36 @@
-# IT-Sicherheit Lernspiel - Flutter Mobile App
+# 🛡️ IT-Sicherheit Lernspiel - Cybersecurity Learning Platform
 
-Eine interaktive mobile Anwendung für angehende Fachinformatiker zum Lernen von IT-Sicherheit, Netzwerktechnik und Geschäftsprozessen.
+[![Flutter Version](https://img.shields.io/badge/Flutter-3.19.0-blue.svg)](https://flutter.dev/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen.svg)](https://github.com/Adrakir/Cybersecurity-Lernen)
+[![Platform](https://img.shields.io/badge/Platform-iOS%20%7C%20Android%20%7C%20Web-lightgrey.svg)](https://flutter.dev/multi-platform)
+
+Eine umfassende, interaktive Cybersecurity-Lernplattform mit gamifizierten Elementen, real-world Simulationen und Industry Partnerships. Entwickelt mit Flutter für Cross-Platform Unterstützung.
 
 ## 🚀 Features
 
-- **3 Lernphasen**: IT-Infrastruktur, Kundenberatung, IT-Sicherheit
-- **100+ Fragen** zu allen relevanten Themen
-- **Interaktive Story**: Jede Antwort beeinflusst das Projektergebnis
-- **Grafische Oberfläche** mit Animationen und visuellen Elementen
-- **Fortschritts-Tracking** mit detaillierter Statistik
-- **Cross-Platform**: Läuft auf iOS und Android
-- **Web-Version**: HTML/CSS/JavaScript-basierte Browser-Version verfügbar
-- **Detaillierte Statistiken**: Umfassende Lernanalyse und Schwachstellenerkennung
-- **Lösungsanzeige**: Ausführliche Erklärungen zu allen Fragen
+### 🎮 Core Learning Features
+- **📚 20+ Advanced Learning Modules** - Umfassende Cybersecurity-Kurse mit praktischen Übungen
+- **🎯 Skill Tree System** - Progressives Leveling mit 50+ Skills und Achievements
+- **🏆 Achievement System** - Gamification mit Badges, Punkten und Leaderboards
+- **📊 Progress Tracking** - Detaillierte Fortschrittsverfolgung und Analytics
+- **🎓 Certification Preparation** - Training für CISSP, CEH, OSCP und mehr
+
+### 🛠️ Advanced Training Modules
+- **🔐 Phishing Awareness Training** - Erkennung und Prävention von Phishing-Angriffen
+- **🔍 Vulnerability Assessment Labs** - Hands-on Penetration Testing Environment
+- **🚨 Incident Response Drills** - Real-time Incident Response Simulationen
+- **☁️ Cloud Security Simulator** - Multi-Cloud Security Training (AWS/Azure/GCP)
+- **📱 Mobile Security Training** - Device Security und Mobile Threat Protection
+- **🧠 AI-Powered Adaptive Learning** - KI-basierte personalisierte Lernwege
+- **🎭 Social Engineering Simulator** - Realistische Social Engineering Szenarien
+- **🔮 Threat Intelligence Dashboard** - Live Threat Feeds und Analysis
+
+### 🏢 Professional Development
+- **👨‍🏫 Cybersecurity Mentorship Program** - Verbindung mit Industry Experts
+- **🤝 Industry Partnership Network** - Real-world Opportunities und Internships
+- **🏭 Virtual SOC Environment** - Security Operations Center Simulation
+- **🔬 Security Research Platform** - Collaborative Research und Innovation
 
 ## 🛠️ Installation
 
